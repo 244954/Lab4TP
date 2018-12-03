@@ -17,7 +17,7 @@ public class StandardGameBuilder2Players implements GameBuilder {
 
 	public Game build() {
 		// TODO Auto-generated method stub
-		return null;
+		return gametmp;
 	}
 
 	public GameBuilder setnoPlayers() {

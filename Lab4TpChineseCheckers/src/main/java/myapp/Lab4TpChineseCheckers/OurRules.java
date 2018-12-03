@@ -28,8 +28,16 @@ public class OurRules implements Rules {
 				if ( (x-nx<2 && x-nx>-2) && (y-ny<2 && y-ny>-2) ) 
 				{
 					if (p.getDidmove()==false)
+					{
+						if (p.getAtDestination()==true && b.atDestination(p, nx, ny)==false) // jesli w celu, a rusza poza
+						{
+							return false;
+						}
+						if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
+							p.setAtDestination(true);
 						return true;
-					else
+					}
+					else // jak juz przeskakiwal to nie moze o jedno pole
 						return false;
 				}
 				// skoki
@@ -39,7 +47,15 @@ public class OurRules implements Rules {
 					if (y==ny && x+2==nx)
 					{
 						if (b.getSquare(x+1,y)>0)
+						{
+							if (p.getAtDestination()==true && b.atDestination(p, nx, ny)==false) // jesli w celu, a rusza poza
+							{
+								return false;
+							}
+							if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
+								p.setAtDestination(true);
 							return true;
+						}
 						else
 							return false;
 					}
@@ -47,7 +63,15 @@ public class OurRules implements Rules {
 					if (y+2==ny && x+2==nx)
 					{
 						if (b.getSquare(x+1,y+1)>0)
+						{
+							if (p.getAtDestination()==true && b.atDestination(p, nx, ny)==false) // jesli w celu, a rusza poza
+							{
+								return false;
+							}
+							if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
+								p.setAtDestination(true);
 							return true;
+						}
 						else
 							return false;
 					}
@@ -55,7 +79,15 @@ public class OurRules implements Rules {
 					if (y+2==ny && x==nx)
 					{
 						if (b.getSquare(x,y+1)>0)
+						{
+							if (p.getAtDestination()==true && b.atDestination(p, nx, ny)==false) // jesli w celu, a rusza poza
+							{
+								return false;
+							}
+							if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
+								p.setAtDestination(true);
 							return true;
+						}
 						else
 							return false;
 					}
@@ -63,7 +95,15 @@ public class OurRules implements Rules {
 					if (y==ny && x-2==nx)
 					{
 						if (b.getSquare(x-1,y)>0)
+						{
+							if (p.getAtDestination()==true && b.atDestination(p, nx, ny)==false) // jesli w celu, a rusza poza
+							{
+								return false;
+							}
+							if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
+								p.setAtDestination(true);
 							return true;
+						}
 						else
 							return false;
 					}
@@ -71,7 +111,15 @@ public class OurRules implements Rules {
 					if (y-2==ny && x-2==nx)
 					{
 						if (b.getSquare(x-1,y-1)>0)
+						{
+							if (p.getAtDestination()==true && b.atDestination(p, nx, ny)==false) // jesli w celu, a rusza poza
+							{
+								return false;
+							}
+							if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
+								p.setAtDestination(true);
 							return true;
+						}
 						else
 							return false;
 					}
@@ -79,7 +127,15 @@ public class OurRules implements Rules {
 					if (y-2==ny && x==nx)
 					{
 						if (b.getSquare(x,y-1)>0)
+						{
+							if (p.getAtDestination()==true && b.atDestination(p, nx, ny)==false) // jesli w celu, a rusza poza
+							{
+								return false;
+							}
+							if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
+								p.setAtDestination(true);
 							return true;
+						} 
 						else
 							return false;
 					}

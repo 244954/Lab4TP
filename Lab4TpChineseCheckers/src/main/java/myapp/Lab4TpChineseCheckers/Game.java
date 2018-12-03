@@ -30,12 +30,34 @@ public class Game {
 	{
 		this.pawn=p;
 	}
+	public Pawn getPawn(int x,int y)
+	{
+		for (Pawn p : pawn)
+		{
+			if (p.getX()==x && p.getY()==y)
+			{
+				return p;
+			}
+		}
+		return null;
+	}
 	
 	public void movePawn(Pawn p,int x,int y)
 	{
 		board.setSquare(p.getX(), p.getY(), 0);
 		board.setSquare(x, y, p.getPlayer());
 		p.move(x, y);
+	}
+	public void movedone()
+	{
+		for (Pawn pp : this.pawn)
+		{
+			pp.doneMoving();
+		}
+	}
+	public int getSquare(int x,int y) // just for test
+	{
+		return this.board.getSquare(x, y);
 	}
 	
 	public int[][] possibleMoves(Pawn p)

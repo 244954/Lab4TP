@@ -13,7 +13,7 @@ public class Pawn {
 		this.x=x;
 		this.y=y;
 		this.didmove=false;
-		this.atDestination=false;
+		this.setAtDestination(false);
 	}
 	public void move(int x,int y)
 	{
@@ -37,6 +37,12 @@ public class Pawn {
 	}
 	public int getPlayer() {
 		return this.noPlayer;
+	}
+	public boolean getAtDestination() {
+		return atDestination;
+	}
+	public void setAtDestination(boolean atDestination) {
+		this.atDestination = atDestination;
 	}
 
 }

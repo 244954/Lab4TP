@@ -9,6 +9,8 @@ import org.junit.Test;
 public class BoardMovingTest1 {
 
 	Board b;
+	GameBuilder gb;
+	Game g;
 	
 	@Test
 	public void firstTest()
@@ -27,5 +29,13 @@ public class BoardMovingTest1 {
 	{
 		b=new Board121w2Players();
 		assertEquals(b.getSquare(10, 6),0);
+	}
+	@Test
+	public void forthTest()
+	{
+		gb=new StandardGameBuilder2Players();
+		g=gb.build();
+		g.movePawn(g.getPawn(7, 4), 7, 6);
+		assertEquals(g.getSquare(7, 6),1);
 	}
 }
