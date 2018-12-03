@@ -5,7 +5,7 @@ public class OurRules implements Rules {
 	Board b;
 	
 	public OurRules() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public void fetchBoard(Board b)

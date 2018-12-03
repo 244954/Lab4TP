@@ -35,5 +35,8 @@ public class Pawn {
 	public int getY() {
 		return this.y;
 	}
+	public int getPlayer() {
+		return this.noPlayer;
+	}
 
 }

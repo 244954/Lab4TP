@@ -33,7 +33,9 @@ public class Game {
 	
 	public void movePawn(Pawn p,int x,int y)
 	{
-		;
+		board.setSquare(p.getX(), p.getY(), 0);
+		board.setSquare(x, y, p.getPlayer());
+		p.move(x, y);
 	}
 	
 	public int[][] possibleMoves(Pawn p)
