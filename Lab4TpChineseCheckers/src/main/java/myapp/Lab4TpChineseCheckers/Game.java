@@ -1,5 +1,6 @@
 package myapp.Lab4TpChineseCheckers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -47,6 +48,10 @@ public class Game {
 		board.setSquare(p.getX(), p.getY(), 0);
 		board.setSquare(x, y, p.getPlayer());
 		p.move(x, y);
+		if (board.atDestination(p, x, y)==true) // did it reach destination?
+		{
+			p.setAtDestination(true);
+		}
 	}
 	public void movedone()
 	{
@@ -60,14 +65,12 @@ public class Game {
 		return this.board.getSquare(x, y);
 	}
 	
-	public int[][] possibleMoves(Pawn p)
+	public List<Move> possibleMoves(Pawn p)
 	{
-		int [][]moves;
-		moves=new int[5*5][2]; // all moves in the radius of 2
+		List<Move> moves;
+		moves=new ArrayList<Move>();
 		int x=p.getX();
 		int y=p.getY();
-		
-		int n=0;
 		
 		for (int i=y-2;i<=y+2;i++)
 		{
@@ -75,14 +78,19 @@ public class Game {
 			{
 				if (rules.canmove(p, j, i)==true)
 				{
-					moves[n][0]=j;
-					moves[n][1]=i;
-					n++;
+					moves.add(new Move(x,y));
 				}
 			}
 		}
 		
 		return moves;
+	}
+	public boolean canmove(Pawn p,int x,int y)
+	{
+		if (rules.canmove(p, x, y)==true)
+			return true;
+		else
+			return false;
 	}
 
 }
