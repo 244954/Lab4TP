@@ -9,7 +9,7 @@ public class Board121w3Players extends Board {
 	@Override
 	public void setUp() {
 		
-		setnoPlayers(2);
+		setnoPlayers(3);
 		
 		destination=new int[30][3];
 		int decount=0;
