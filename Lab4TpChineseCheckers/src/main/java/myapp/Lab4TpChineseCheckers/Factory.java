@@ -6,18 +6,17 @@
 package myapp.Lab4TpChineseCheckers;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import static javafx.scene.paint.Color.BLACK;
-import static javafx.scene.paint.Color.BLUE;
-import static javafx.scene.paint.Color.GRAY;
-import static javafx.scene.paint.Color.GREEN;
-import static javafx.scene.paint.Color.PINK;
-import static javafx.scene.paint.Color.RED;
-import static javafx.scene.paint.Color.VIOLET;
-import static javafx.scene.paint.Color.YELLOW;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.stage.Window;
 
 /**
  *
@@ -45,29 +44,27 @@ public class Factory
         if (rulesType.getText().equals("1"))
         {
             rules = new OurRules();
-            if (noPlayers.getText().equals("2"))
+            switch (noPlayers.getText()) 
             {
-                game.setnoPlayers(2);
-                board = new Board121w2Players();
-            }
-            else if (noPlayers.getText().equals("3"))
-            {
-                game.setnoPlayers(3);
-                board = new Board121w3Players();
-            }
-            else if (noPlayers.getText().equals("4"))
-            {
-                game.setnoPlayers(4);
-                board = new Board121w4Players();
-            }
-            else if (noPlayers.getText().equals("6"))
-            {
-                game.setnoPlayers(6);
-                board = new Board121w6Players();
-            }
-            else
-            {
-                noPlayers.setText("ERROR");
+                case "2":
+                    game.setnoPlayers(2);
+                    board = new Board121w2Players();
+                    break;
+                case "3":
+                    game.setnoPlayers(3);
+                    board = new Board121w3Players();
+                    break;
+                case "4":
+                    game.setnoPlayers(4);
+                    board = new Board121w4Players();
+                    break;
+                case "6":
+                    game.setnoPlayers(6);
+                    board = new Board121w6Players();
+                    break;
+                default:
+                    noPlayers.setText("ERROR");
+                    break;
             }
             
             if(noPlayers.getText().equals("ERROR") ) 
@@ -76,26 +73,70 @@ public class Factory
             } 
             else 
             {
+               Dialog dialog = new Dialog();
+               dialog.setTitle("Ustawienia gry (kolory)");
+               ColorPicker[] array = new ColorPicker[game.noPlayers+2];
+               Color[] def_colors = {null, Color.BLACK, Color.RED, 
+                                     Color.BLUE, Color.GREEN, Color.YELLOW,
+                                     Color.ORANGE, Color.KHAKI};
+               DialogPane dialogPane = dialog.getDialogPane();
+               dialogPane.setPrefHeight(20+(array.length)*20);
+               dialogPane.setPrefWidth(200);
+               for (int a=0; a<array.length; a++)
+               {
+                   Text text;
+                   switch (a) 
+                   {
+                       case 0:
+                           text = new Text("Poza grą");
+                           break;
+                       case 1:
+                           text = new Text("W grze");
+                           break;
+                       default:
+                           text = new Text("Gracz " + (a-1));
+                           break;
+                   }
+                   text.setLayoutX(10);
+                   text.setLayoutY(20+a*20);
+                   array[a] = new ColorPicker();
+                   array[a].setLayoutX(80);
+                   array[a].setLayoutY(16+a*20);
+                   array[a].setValue(def_colors[a]);
+                   dialogPane.getChildren().addAll(text, array[a]);
+               }
+              
+               ButtonType start = new ButtonType("Start");
+               dialog.getDialogPane().getButtonTypes().add(start);
+               Button okButton = (Button) dialog.getDialogPane().lookupButton(start);
+               dialog.show();
+               Window window = dialog.getDialogPane().getScene().getWindow();
+               window.setOnCloseRequest(event -> window.hide());
+
+                
                 game.setBoard(board);
                 game.setPawns(game.pawn);
                 board.setUp();
                 Circle[][] circle = new Circle[21][21];
                 double X = board_pane.getWidth();
                 double Y = board_pane.getHeight();
-                
-                for(int a=0; a<21; a++)
+                okButton.setOnAction((ActionEvent event) ->
                 {
-                     for (int b=0; b<21; b++)
-                     {
-                        circle[a][b] = new Circle();
-                        circle[a][b].setRadius(X/54);
-                        circle[a][b].setCenterX((X/54)*20 + (X/27)*a - (X/54)*b);
-                        circle[a][b].setCenterY(70 + (Y/27)*b); 
-                        set_colors(circle[a][b], board.p[a][b]);
-                        circle[a][b].setVisible(true);
-                        board_pane.getChildren().add(circle[a][b]);
+                    for(int a=0; a<21; a++)
+                    {
+                        for (int b=0; b<21; b++)
+                        {
+                            circle[a][b] = new Circle();
+                            circle[a][b].setRadius(X/54);
+                            circle[a][b].setCenterX((X/54)*20 + (X/27)*a - (X/54)*b);
+                            circle[a][b].setCenterY(70 + (Y/27)*b); 
+                            set_colors(circle[a][b], board.p[a][b], array);
+                            circle[a][b].setVisible(true);
+                            board_pane.getChildren().add(circle[a][b]);
                      }
-                }
+                } 
+                });
+               
 
             }
         
@@ -108,40 +149,15 @@ public class Factory
      
     }
     
-    public void set_colors(Circle circle, int player) //ustalanie poszczegolnych kolorow, postaram sie tutaj dodac ColorPickery
+    public void set_colors(Circle circle, int player, ColorPicker[] array) //ustalanie poszczegolnych kolorow, postaram sie tutaj dodac ColorPickery
     {
-                if(player == 0)
-                {
-                    circle.setFill(BLACK);
-                }
-                else if(player == 1)
-                {
-                    circle.setFill(RED);
-                }
-                else if(player == 2)
-                {
-                    circle.setFill(GREEN);
-                }
-                else if(player == 3)
-                {
-                    circle.setFill(BLUE);
-                }
-                else if(player == 4)
-                {
-                    circle.setFill(YELLOW);
-                }
-                else if(player == 5)
-                {
-                    circle.setFill(PINK);
-                }
-                else if(player == 6)
-                {
-                    circle.setFill(VIOLET);
-                }
-                else
-                {
-                    circle.setFill(GRAY);
-                }
+        for (int a=0; a<array.length; a++)
+        {
+            if(player == a-1)
+            {
+                        circle.setFill(array[a].getValue());
+            }
+        }
     }
  
 }
