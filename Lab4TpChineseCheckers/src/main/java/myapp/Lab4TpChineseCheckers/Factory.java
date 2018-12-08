@@ -74,33 +74,33 @@ public class Factory
             else 
             {
                Dialog dialog = new Dialog();
-               dialog.setTitle("Ustawienia gry (kolory)");
+               dialog.setTitle("Game settings (pawns colors)");
                ColorPicker[] array = new ColorPicker[game.noPlayers+2];
                Color[] def_colors = {null, Color.BLACK, Color.RED, 
                                      Color.BLUE, Color.GREEN, Color.YELLOW,
                                      Color.ORANGE, Color.KHAKI};
                DialogPane dialogPane = dialog.getDialogPane();
                dialogPane.setPrefHeight(20+(array.length)*20);
-               dialogPane.setPrefWidth(200);
+               dialogPane.setPrefWidth(250);
                for (int a=0; a<array.length; a++)
                {
                    Text text;
                    switch (a) 
                    {
                        case 0:
-                           text = new Text("Poza grą");
+                           text = new Text("Not in game");
                            break;
                        case 1:
-                           text = new Text("W grze");
+                           text = new Text("In game");
                            break;
                        default:
-                           text = new Text("Gracz " + (a-1));
+                           text = new Text("Player " + (a-1));
                            break;
                    }
-                   text.setLayoutX(10);
+                   text.setLayoutX(5);
                    text.setLayoutY(20+a*20);
                    array[a] = new ColorPicker();
-                   array[a].setLayoutX(80);
+                   array[a].setLayoutX(100);
                    array[a].setLayoutY(16+a*20);
                    array[a].setValue(def_colors[a]);
                    dialogPane.getChildren().addAll(text, array[a]);
