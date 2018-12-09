@@ -99,5 +99,9 @@ public class Game {
 		else
 			return false;
 	}
+	public int getnoPlayers()
+	{
+		return this.noPlayers;
+	}
 
 }
