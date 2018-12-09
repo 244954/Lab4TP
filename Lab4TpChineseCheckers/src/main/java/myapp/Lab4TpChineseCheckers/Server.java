@@ -22,9 +22,17 @@ public class Server {
                 players.add(new HumanPlayer(listener.accept(),2, g,1));
                 for (Player p: players)
                 {
-                	p.setOpponents(players);
+                	System.out.println(p.getnoPlayer());
                 }
-                players.get(0).setCurrent(true); // ten gracz zaczyna
+                for (Player p: players)
+                {
+                	System.out.println(p.getnoPlayer());
+                	p.setOpponents(players);
+                	if (p.getnoPlayer()==1)
+                	{
+                		p.setCurrent(true); // ten gracz zaczyna
+                	}
+                }
                 for (Player p: players)
                 {
                 	p.start();

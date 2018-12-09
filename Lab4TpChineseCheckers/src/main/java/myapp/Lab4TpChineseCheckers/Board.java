@@ -44,5 +44,10 @@ public abstract class Board {
 	{
 		return noPlayers;
 	}
+	public void move(int x,int y,int nx,int ny,int noplayer) // dla GUI
+	{
+		setSquare(x,y,0);
+		setSquare(nx,ny,noplayer);
+	}
 
 }

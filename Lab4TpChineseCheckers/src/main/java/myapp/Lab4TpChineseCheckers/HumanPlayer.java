@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HumanPlayer extends Player {
@@ -39,9 +40,9 @@ public class HumanPlayer extends Player {
     {
     	return this.noPlayer;
     }
-    public void setOpponents(List<Player> p)
+    public synchronized void setOpponents(List<Player> p)
     {
-    	this.opponents=p;
+    	opponents=new ArrayList<Player>(p);
     	opponents.remove(this); // usun siebie z przeciwnikow
     }
     public void setCurrent(boolean b)
