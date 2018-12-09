@@ -22,14 +22,14 @@ public class Game {
 	{
 		this.board=b;
 	}
+	public void setPawns(List<Pawn> p)
+	{
+		this.pawn=p;
+	}
 	public void setRules(Rules r)
 	{
 		this.rules=r;
 		r.fetchBoard(board);
-	}
-	public void setPawns(List<Pawn> p)
-	{
-		this.pawn=p;
 	}
 	public Pawn getPawn(int x,int y)
 	{
@@ -88,6 +88,13 @@ public class Game {
 	public boolean canmove(Pawn p,int x,int y)
 	{
 		if (rules.canmove(p, x, y)==true)
+			return true;
+		else
+			return false;
+	}
+	public boolean haswon(int noPlayer)
+	{
+		if (rules.haswon(noPlayer,pawn)==true)
 			return true;
 		else
 			return false;

@@ -69,4 +69,35 @@ public class BoardMovingTest1 {
 		
 		assertEquals(g.canmove(g.getPawn(12, 15), 11, 14),false); 
 	}
+	@Test
+	public void haswonTest() // obviously not
+	{
+		gb=new StandardGameBuilder2Players();
+		g=gb.build();
+		g.movePawn(g.getPawn(7, 4), 7, 6);
+		g.movePawn(g.getPawn(12, 15), 12, 14);
+		
+		assertEquals(g.haswon(1),false); 
+	}
+	@Test
+	public void haswonTest2() // maybe
+	{
+		gb=new StandardGameBuilder2Players();
+		g=gb.build();
+		g.movePawn(g.getPawn(6, 2), 14, 18);
+		g.movePawn(g.getPawn(6, 3), 14, 17);
+		g.movePawn(g.getPawn(6, 4), 14, 16);
+		g.movePawn(g.getPawn(6, 5), 14, 15);
+		
+		g.movePawn(g.getPawn(7, 3), 13, 17);
+		g.movePawn(g.getPawn(7, 4), 13, 16);
+		g.movePawn(g.getPawn(7, 5), 13, 15);
+		
+		g.movePawn(g.getPawn(8, 4), 12, 16);
+		g.movePawn(g.getPawn(8, 5), 12, 15);
+		
+		g.movePawn(g.getPawn(9, 5), 11, 15);
+		
+		assertEquals(g.haswon(1),true); 
+	}
 }

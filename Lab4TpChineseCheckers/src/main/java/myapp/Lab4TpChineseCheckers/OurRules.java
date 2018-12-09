@@ -1,8 +1,11 @@
 package myapp.Lab4TpChineseCheckers;
 
+import java.util.List;
+
 public class OurRules implements Rules {
 
 	Board b;
+	List <Pawn> pawn;
 	
 	public OurRules() {
 		
@@ -147,6 +150,17 @@ public class OurRules implements Rules {
 		}
 		else
 			return false;
+	}
+
+	public boolean haswon(int playerID,List <Pawn> p) {
+		for (Pawn pawn : p) // doesnt work
+		{
+			if (pawn.getPlayer()==playerID && pawn.getAtDestination()==false)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
