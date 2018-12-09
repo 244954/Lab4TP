@@ -9,6 +9,7 @@ public abstract class Player extends Thread{
     Game game;
     int pawnx,pawny;
     protected boolean current;
+    protected boolean pawnLocked;
 	
 	public Player() {
 		// TODO Auto-generated constructor stub

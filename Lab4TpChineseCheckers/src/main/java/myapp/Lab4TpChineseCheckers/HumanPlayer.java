@@ -18,16 +18,18 @@ public class HumanPlayer extends Player {
     int pawnx,pawny;
     
     
-    public HumanPlayer(Socket socket, int noPlayer, Game game) {
+    public HumanPlayer(Socket socket, int noPlayer, Game game,int gamemode) {
         this.socket = socket;
         this.noPlayer = noPlayer;
         this.game=game;
-        current=false;
+        this.current=false;
+        this.pawnLocked=false;
         try {
             input = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
             output.println("WELCOME " + this.noPlayer);
+            output.println("GAMEMODE " + gamemode);
             output.println("MESSAGE Waiting for opponents to connect");
         } catch (IOException e) {
             System.out.println("Player died: " + e);
@@ -75,7 +77,7 @@ public class HumanPlayer extends Player {
     		
 	    	output.println("MESSAGE All players connected");
 	    	
-	    	if (this.noPlayer==1)
+	    	if (this.current==true)
 	    	{
 	    		output.println("MESSAGE Your move");
 	    	}
@@ -83,7 +85,7 @@ public class HumanPlayer extends Player {
 	    	while (true)
 	    	{
 	    		String command=input.readLine();
-	    		if (command.startsWith("PAWN"))
+	    		if (command.startsWith("PAWN") && this.current==true && this.pawnLocked==false)
 	    		{
 	    			pawnx=Integer.parseInt(command.substring(5, 7));
 	    			pawny=Integer.parseInt(command.substring(8, 10));
@@ -102,11 +104,15 @@ public class HumanPlayer extends Player {
 	    				output.println("VALIDMOVE " + x + " " + y);
 	    			}
 	    		}
-	    		else if (command.startsWith("MOVE"))
+	    		else if (command.startsWith("MOVE") && this.current==true)
 	    		{
 	    			int xx=Integer.parseInt(command.substring(5, 7));
 	    			int yy=Integer.parseInt(command.substring(8, 10));
 	    			this.game.movePawn(game.getPawn(pawnx, pawny),xx , yy);
+	    			if (game.haswon(this.noPlayer)==true)
+	    			{
+	    				output.println("VICTORY");
+	    			}
 	    			for (Player p: opponents)
 	    			{
 	    				p.otherPlayerMoved(pawnx, pawny, xx, yy);
@@ -125,8 +131,9 @@ public class HumanPlayer extends Player {
 	    					y=Integer.toString(move.y);
 	    				output.println("VALIDMOVE " + x + " " + y);
 	    			}
+	    			this.pawnLocked=true;
 	    		}
-	    		else if (command.startsWith("END"))
+	    		else if (command.startsWith("END") && this.current==true)
 	    		{
 	    			int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
 	    			this.current=false;
@@ -135,6 +142,7 @@ public class HumanPlayer extends Player {
 	    				if (p.getnoPlayer()==no)
 	    					p.setCurrent(true);
 	    			}
+	    			this.pawnLocked=false;
 	    		}
 	    		else if (command.startsWith("QUIT"))
 	    		{

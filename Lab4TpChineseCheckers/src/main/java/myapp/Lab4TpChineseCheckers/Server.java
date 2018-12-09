@@ -18,17 +18,17 @@ public class Server {
             	GameBuilder gb=new StandardGameBuilder2Players();
             	Game g=gb.build();
                 players=new ArrayList<Player>();
-                players.add(new HumanPlayer(listener.accept(),1, g));
-                players.add(new HumanPlayer(listener.accept(),2, g));
+                players.add(new HumanPlayer(listener.accept(),1, g,1));
+                players.add(new HumanPlayer(listener.accept(),2, g,1));
                 for (Player p: players)
                 {
                 	p.setOpponents(players);
                 }
+                players.get(0).setCurrent(true); // ten gracz zaczyna
                 for (Player p: players)
                 {
                 	p.start();
                 }
-                players.get(0).setCurrent(true); // ten gracz zaczyna
             }
         } finally {
             listener.close();
