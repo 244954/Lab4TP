@@ -28,6 +28,8 @@ public class GUIController implements Initializable
     @FXML
     private TextField rulesType;
     
+    Factory factory;
+    
     public void info()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -43,13 +45,18 @@ public class GUIController implements Initializable
     
     public void new_game() //to jest metoda, ktora sie wywoluje na nacisniecie przycisku Start
     {
-        Factory factory = new Factory(noPlayers, rulesType, board);
+        factory = new Factory(noPlayers, rulesType, board);
         try {
 			factory.create_game();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+   }
+    
+   public void endmove()
+   {
+	   factory.endmove();
    }
 
     @Override

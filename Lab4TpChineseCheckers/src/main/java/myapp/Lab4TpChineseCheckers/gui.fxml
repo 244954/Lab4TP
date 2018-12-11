@@ -18,7 +18,7 @@
             <Insets />
          </opaqueInsets>
       </Pane>
-      <Button layoutX="28.0" layoutY="570.0" mnemonicParsing="false" text="End of move" />
+      <Button layoutX="28.0" layoutY="570.0" mnemonicParsing="false" onAction="#endmove" text="End of move" />
       <Button layoutX="167.0" layoutY="24.0" mnemonicParsing="false" onAction="#info" text="Info" />
    </children>
 </Pane>

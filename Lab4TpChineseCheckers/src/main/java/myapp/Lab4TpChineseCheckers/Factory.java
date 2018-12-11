@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -41,6 +42,9 @@ public class Factory
     private double X,Y;
     private int noplayer;
     private int chpawnx=-1,chpawny=-1,destinx=-1,destiny=-1;
+    private boolean pawnlock;
+    
+    List<Move> posmoves;
     
     ColorPicker[] array;
     
@@ -50,6 +54,14 @@ public class Factory
         this.rulesType = rulesType;
         this.board_pane = board_pane;
         this.noplayer=1;
+        this.pawnlock=false;
+        posmoves=new ArrayList<Move>();
+        
+        List<Move> mymoves;
+        mymoves=new ArrayList<Move>();
+        mymoves.add(new Move(4,6));
+        mymoves.add(new Move(13,11));
+        selpossmov(mymoves);
     }
     
     public void create_game() throws Exception //w tej czesci sprawdzamy warunki i jesli sa poprawne, to tworzymy plansze
@@ -132,19 +144,7 @@ public class Factory
                 this.Y = board_pane.getHeight();
                 okButton.setOnAction((ActionEvent event) ->
                 {
-                    for(int a=0; a<21; a++)
-                    {
-                        for (int b=0; b<21; b++)
-                        {
-                            circle[a][b] = new Circle();
-                            circle[a][b].setRadius(X/54);
-                            circle[a][b].setCenterX((X/54)*20 + (X/27)*a - (X/54)*b);
-                            circle[a][b].setCenterY(70 + (Y/27)*b); 
-                            set_colors(circle[a][b], board.p[a][b], array);
-                            circle[a][b].setVisible(true);
-                            board_pane.getChildren().add(circle[a][b]);
-                        }
-                    } 
+                    repaint();
                 });     
                 
                /*  Server server = new Server(board.getnoPlayers());
@@ -178,10 +178,11 @@ public class Factory
                 {
                     if (circle[a][b].contains(x,y))
                     {
-                    	if (this.board.getSquare(a, b)==this.noplayer)
+                    	if (this.board.getSquare(a, b)==this.noplayer && pawnlock==false)
                     	{
                     		chpawnx=a;
                     		chpawny=b;
+                    		//wyślij komunikat do serwera PAWN a b
                     	}
                     	else
                     	if (this.board.getSquare(a, b)==0)
@@ -219,8 +220,15 @@ public class Factory
                 circle[a][b] = new Circle();
                 circle[a][b].setRadius(X/54);
                 circle[a][b].setCenterX((X/54)*20 + (X/27)*a - (X/54)*b);
-                circle[a][b].setCenterY(70 + (Y/27)*b); 
+                circle[a][b].setCenterY(70 + (Y/27)*b);
                 set_colors(circle[a][b], board.p[a][b], array);
+                for (Move m : posmoves)
+            	{
+            		if (m.x==a && m.y==b)
+            		{
+            			circle[a][b].setFill(Color.GRAY);
+            		}
+            	}
                 circle[a][b].setVisible(true);
                 board_pane.getChildren().add(circle[a][b]);
             }
@@ -233,11 +241,28 @@ public class Factory
     	chpawny=ny;
     	repaint();
     	destinx=destiny=-1;
+    	pawnlock=true;
+    	removeselect();
+    	
+    	// wyslij komunikat do serwera MOVE x y nx ny
     }
     public void endmove()
     {
     	chpawnx=chpawny=-1;
     	destinx=destiny=-1;
+    	pawnlock=false;
+    	
+    	// wyślij komunikat do serwera END
+    }
+    
+    public void selpossmov(List<Move> m)
+    {
+    	this.posmoves=new ArrayList<Move>(m);
+    }
+    public void removeselect()
+    {
+    	this.posmoves.clear();
+    	repaint();
     }
  
 }
