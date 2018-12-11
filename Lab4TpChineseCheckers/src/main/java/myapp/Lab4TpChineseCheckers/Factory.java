@@ -31,20 +31,25 @@ import javafx.stage.Window;
  */
 public class Factory 
 {
-    Game game = new Game();
     Board board;
-    Rules rules;
+    Circle[][] circle;
     
     private Pane board_pane;
     private TextField noPlayers;
     private TextField rulesType;
-    private List<Client> clients;
+    
+    private double X,Y;
+    private int noplayer;
+    private int chpawnx=-1,chpawny=-1,destinx=-1,destiny=-1;
+    
+    ColorPicker[] array;
     
     public Factory(TextField noPlayers, TextField rulesType, Pane board_pane)
     {
         this.noPlayers = noPlayers;
         this.rulesType = rulesType;
         this.board_pane = board_pane;
+        this.noplayer=1;
     }
     
     public void create_game() throws Exception //w tej czesci sprawdzamy warunki i jesli sa poprawne, to tworzymy plansze
@@ -80,13 +85,10 @@ public class Factory
             } 
             else 
             {
-                game.setBoard(board);
-                game.setPawns(game.pawn);
-                board.setUp();
                 
                 Dialog dialog = new Dialog();
                 dialog.setTitle("Game settings (pawns colors)");
-                ColorPicker[] array = new ColorPicker[board.getnoPlayers()+2];
+                array = new ColorPicker[board.getnoPlayers()+2];
                 Color[] def_colors = {null, Color.BLACK, Color.RED,
                     Color.BLUE, Color.GREEN, Color.YELLOW,
                     Color.ORANGE, Color.KHAKI};
@@ -125,9 +127,9 @@ public class Factory
                 window.setOnCloseRequest(event -> window.hide());
                 
                
-                Circle[][] circle = new Circle[21][21];
-                double X = board_pane.getWidth();
-                double Y = board_pane.getHeight();
+                circle = new Circle[21][21];
+                this.X = board_pane.getWidth();
+                this.Y = board_pane.getHeight();
                 okButton.setOnAction((ActionEvent event) ->
                 {
                     for(int a=0; a<21; a++)
@@ -176,7 +178,21 @@ public class Factory
                 {
                     if (circle[a][b].contains(x,y))
                     {
-                        System.out.println("Kliknieto " + a + ", " + b);
+                    	if (this.board.getSquare(a, b)==this.noplayer)
+                    	{
+                    		chpawnx=a;
+                    		chpawny=b;
+                    	}
+                    	else
+                    	if (this.board.getSquare(a, b)==0)
+                        {
+                        	destinx=a;
+                        	destiny=b;
+                        }
+                    	if (chpawnx!=-1 && chpawny!=-1 && destinx!=-1 && destiny!=-1)
+                    	{
+                    		move(chpawnx,chpawny,destinx,destiny);
+                    	}
                     }
                 }
             }
@@ -193,6 +209,35 @@ public class Factory
                         circle.setFill(array[a].getValue());
             }
         }
+    }
+    public void repaint()
+    {
+    	for(int a=0; a<21; a++)
+        {
+            for (int b=0; b<21; b++)
+            {
+                circle[a][b] = new Circle();
+                circle[a][b].setRadius(X/54);
+                circle[a][b].setCenterX((X/54)*20 + (X/27)*a - (X/54)*b);
+                circle[a][b].setCenterY(70 + (Y/27)*b); 
+                set_colors(circle[a][b], board.p[a][b], array);
+                circle[a][b].setVisible(true);
+                board_pane.getChildren().add(circle[a][b]);
+            }
+        } 
+    }
+    public void move(int x,int y,int nx,int ny)
+    {
+    	board.move(x, y, nx, ny);
+    	chpawnx=nx;
+    	chpawny=ny;
+    	repaint();
+    	destinx=destiny=-1;
+    }
+    public void endmove()
+    {
+    	chpawnx=chpawny=-1;
+    	destinx=destiny=-1;
     }
  
 }

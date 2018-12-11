@@ -7,6 +7,8 @@ package myapp.Lab4TpChineseCheckers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -42,7 +44,12 @@ public class GUIController implements Initializable
     public void new_game() //to jest metoda, ktora sie wywoluje na nacisniecie przycisku Start
     {
         Factory factory = new Factory(noPlayers, rulesType, board);
-        factory.create_game();
+        try {
+			factory.create_game();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
    }
 
     @Override
