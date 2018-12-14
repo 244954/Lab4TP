@@ -36,6 +36,8 @@ public class OurRules implements Rules {
 						{
 							return false;
 						}
+						if ( (x-nx==1 && y-ny==-1) || (x-nx==-1 && y-ny==1) ) // lewa dol lub prawa gora
+							return false;
 						if (b.atDestination(p, nx, ny)==true) // jesli do celu to zaznacz
 							p.setAtDestination(true);
 						return true;

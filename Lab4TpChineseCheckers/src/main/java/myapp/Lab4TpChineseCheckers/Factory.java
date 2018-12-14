@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -51,15 +53,135 @@ public class Factory
     
     private static int PORT = 8901;
     private Socket socket;
-    private BufferedReader in;
+    //private BufferedReader in;
     private PrintWriter out;
+    
+    Task task = new Task<Void>() {
+        @Override public Void call() throws IOException
+        {
+        	BufferedReader in;
+        	in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        	String response;
+    		try {
+                response = in.readLine();
+                if (response.startsWith("WELCOME"))
+                {
+                	int res=Integer.parseInt(response.substring(8,9));
+	                Platform.runLater(new Runnable() {
+	                    @Override public void run() {
+	                    	noplayer = res;
+	                        System.out.println("Polaczono "+noplayer);
+	                    }
+	                });
+                }
+                response=in.readLine();
+                if (response.startsWith("GAMEMODE"))
+                {
+                	String res=response.substring(9,10);
+                	Platform.runLater(new Runnable() {
+	                    @Override public void run() {
+	                    	switch (res)
+	                        {
+	                        case "1":
+	                        {
+	                        	//board = new Board121w2Players();
+	                        	create_game(1);
+	                        	System.out.println("Gamemode 1");
+	                        }
+	                        break;
+	                        case "2":
+	                        {
+	                        	create_game(2);
+	                        	System.out.println("Gamemode 2");
+	                        }
+	                        break;
+	                        case "3":
+	                        {
+	                        	create_game(3);
+	                        	System.out.println("Gamemode 3");
+	                        }
+	                        break;
+	                        case "4":
+	                        {
+	                        	create_game(4);
+	                        	System.out.println("Gamemode 4");
+	                        }
+	                        }
+	                    }
+	                });
+                	
+                }
+                
+                while (true) {
+                	if (in.ready() && (response = in.readLine())!=null)
+                	{
+    	                
+    	                if (response.startsWith("VALIDMOVE")) {
+    	                    int parsx,parsy;
+    	                    System.out.println(response);
+    	                    parsx=Integer.parseInt(response.substring(10,12));
+    	                    parsy=Integer.parseInt(response .substring(13,15));
+    	                    
+    	                    Platform.runLater(new Runnable() {
+    	                        @Override public void run() {
+    	                        	posmoves.add(new Move(parsx,parsy));
+    	    	                    repaint();
+    	    	                	// do posmoves dodajemy new Move(parsx,parsy)
+    	                        }
+    	                    });
+    	                	
+    	                } else if (response.startsWith("OTHER_MOVED")) {
+    	                	System.out.println(response);
+    	                	// move(x,y,nx,ny)
+    	                	int parsx,parsy,parsnx,parsny;
+    	                    parsx=Integer.parseInt(response.substring(12,14));
+    	                    parsy=Integer.parseInt(response .substring(15,17));
+    	                    parsnx=Integer.parseInt(response.substring(18,20));
+    	                    parsny=Integer.parseInt(response .substring(21,23));
+    	                	
+    	                	Platform.runLater(new Runnable() {
+    	                        @Override public void run() {
+    	                        	board.move(parsx, parsy, parsnx, parsny);
+    	                        	repaint();
+    	                        }
+    	                    });
+    	                    
+    	                } else if (response.startsWith("VICTORY")) {
+    	                	 System.out.println("wygrales");
+    	                    break;
+    	                } else if (response.startsWith("MESSAGE")) {
+    	                    System.out.println(response);
+    	                }
+                	}
+                }
+                
+                
+                
+
+
+                
+                
+                out.println("QUIT");
+            }
+    		catch (IOException e)
+        	{
+        		
+        	}
+        	finally
+        	{
+        		try {socket.close();} catch (IOException e) {}
+        	}
+         
+        	
+        	return null;
+        }
+    };
     
     public Factory(Pane board_pane,String serverAddress) throws Exception
     {
     	// Setup networking
         socket = new Socket(serverAddress, PORT);
-        in = new BufferedReader(new InputStreamReader(
-            socket.getInputStream()));
+        //in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
     	
         this.board_pane = board_pane;
@@ -76,87 +198,11 @@ public class Factory
     
     public void play()
     {
-    	String response;
-		try {
-            response = in.readLine();
-            if (response.startsWith("WELCOME")) {;
-                this.noplayer = Integer.parseInt(response.substring(8,9));
-                System.out.println("Polaczono "+noplayer);
-            }
-            response=in.readLine();
-            if (response.startsWith("GAMEMODE")) {
-            	switch (response.substring(9,10))
-                {
-                case "1":
-                {
-                	//board = new Board121w2Players();
-                	create_game(1);
-                	System.out.println("Gamemode 1");
-                }
-                break;
-                case "2":
-                {
-                	create_game(2);
-                	System.out.println("Gamemode 2");
-                }
-                break;
-                case "3":
-                {
-                	create_game(3);
-                	System.out.println("Gamemode 3");
-                }
-                break;
-                case "4":
-                {
-                	create_game(4);
-                	System.out.println("Gamemode 4");
-                }
-                }
-            }
-            
-            while (true) {
-            	if (in.ready() && (response = in.readLine())!=null)
-            	{
-	                
-	                if (response.startsWith("VALIDMOVE")) {
-	                    int parsx,parsy;
-	                    System.out.println(response);
-	                    parsx=Integer.parseInt(response.substring(10,12));
-	                    parsy=Integer.parseInt(response .substring(13,15));
-	                    posmoves.add(new Move(parsx,parsy));
-	                    repaint();
-	                	// do posmoves dodajemy new Move(parsx,parsy)
-	                	
-	                } else if (response.startsWith("OTHER_MOVED")) {
-	                	
-	                	// move(x,y,nx,ny)
-	                    
-	                } else if (response.startsWith("VICTORY")) {
-	                	 System.out.println("wygrales");
-	                    break;
-	                } else if (response.startsWith("MESSAGE")) {
-	                    System.out.println(response);
-	                }
-            	}
-            }
-            
-            
-            
-
-
-            
-            
-            out.println("QUIT");
-        }
-		catch (IOException e)
-    	{
-    		
-    	}
-    	finally
-    	{
-    		try {socket.close();} catch (IOException e) {}
-    	}
+    	Thread th = new Thread(task);
+    	th.setDaemon(true);
+	    th.start();
     }
+		
     
     public void create_game(int gamemode) //w tej czesci sprawdzamy warunki i jesli sa poprawne, to tworzymy plansze
     {
@@ -309,25 +355,6 @@ public class Factory
             }
         }
     }
-    public void newset_colors(Circle circle,int player) //ustalanie poszczegolnych kolorow, postaram sie tutaj dodac ColorPickery
-    {
-    	if (player==-1)
-    		circle.setFill(Color.WHITE);
-    	else if (player==0)
-    		circle.setFill(Color.BLACK);
-    	else if (player==1)
-    		circle.setFill(Color.RED);
-    	else if (player==2)
-    		circle.setFill(Color.BLUE);
-    	else if (player==3)
-    		circle.setFill(Color.GREEN);
-    	else if (player==4)
-    		circle.setFill(Color.PURPLE);
-    	else if (player==5)
-    		circle.setFill(Color.ORANGE);
-    	else if (player==6)
-    		circle.setFill(Color.AQUA);
-    }
     public void repaint()
     {
     	for(int a=0; a<21; a++)
@@ -338,8 +365,8 @@ public class Factory
                 circle[a][b].setRadius(X/54);
                 circle[a][b].setCenterX((X/54)*20 + (X/27)*a - (X/54)*b);
                 circle[a][b].setCenterY(70 + (Y/27)*b);
-                //set_colors(circle[a][b], board.p[a][b], array);
-                newset_colors(circle[a][b], board.p[a][b]);
+                set_colors(circle[a][b], board.p[a][b], array);
+                //newset_colors(circle[a][b], board.p[a][b]);
                 for (Move m : posmoves)
             	{
             		if (m.x==a && m.y==b)
@@ -354,15 +381,35 @@ public class Factory
     }
     public void move(int x,int y,int nx,int ny)
     {
-    	board.move(x, y, nx, ny);
-    	chpawnx=nx;
-    	chpawny=ny;
-    	repaint();
-    	destinx=destiny=-1;
-    	pawnlock=true;
-    	removeselect();
+    	for (Move move : posmoves)
+    	{
+    		if (move.x==nx && move.y==ny)
+    		{
+    			board.move(x, y, nx, ny);
+    	    	chpawnx=nx;
+    	    	chpawny=ny;
+    	    	repaint();
+    	    	destinx=destiny=-1;
+    	    	pawnlock=true;
+    	    	
+    	    	String sx,sy;
+    	    	
+    	    	if (nx<10)
+					sx="0"+Integer.toString(nx);
+				else
+					sx=Integer.toString(nx);
+				if (ny<10)
+					sy="0"+Integer.toString(ny);
+				else
+					sy=Integer.toString(ny);
+				removeselect();
+        		out.println("MOVE " + sx + " " + sy);
+        		// wyslij komunikat do serwera MOVE nx ny // done
+        		break;
+    		}
+    	}
     	
-    	// wyslij komunikat do serwera MOVE nx ny
+    	
     }
     public void endmove()
     {
@@ -370,7 +417,7 @@ public class Factory
     	destinx=destiny=-1;
     	pawnlock=false;
     	
-    	// wyślij komunikat do serwera END
+    	out.println("END");
     }
     
     public void selpossmov(List<Move> m)

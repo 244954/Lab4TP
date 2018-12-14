@@ -75,7 +75,7 @@ public class HumanPlayer extends Player {
     {
     	try
     	{
-    		
+    		System.out.println("Player started");
 	    	output.println("MESSAGE All players connected");
 	    	
 	    	if (this.current==true)
@@ -93,7 +93,7 @@ public class HumanPlayer extends Player {
 		    		{
 		    			pawnx=Integer.parseInt(command.substring(5, 7));
 		    			pawny=Integer.parseInt(command.substring(8, 10));
-		    			List<Move> m=this.game.possibleMoves(game.getPawn(pawnx, pawny));
+		    			List<Move> m=this.game.possibleMoves(this.game.getPawn(pawnx, pawny));
 		    			for (Move move : m)
 		    			{
 		    				String x,y;
@@ -112,7 +112,8 @@ public class HumanPlayer extends Player {
 		    		{
 		    			int xx=Integer.parseInt(command.substring(5, 7));
 		    			int yy=Integer.parseInt(command.substring(8, 10));
-		    			this.game.movePawn(game.getPawn(pawnx, pawny),xx , yy);
+		    			this.game.movePawn(this.game.getPawn(pawnx, pawny),xx , yy);
+		    			System.out.println("Moved");
 		    			if (game.haswon(this.noPlayer)==true)
 		    			{
 		    				output.println("VICTORY");
@@ -121,7 +122,9 @@ public class HumanPlayer extends Player {
 		    			{
 		    				p.otherPlayerMoved(pawnx, pawny, xx, yy);
 		    			}
-		    			List<Move> m=this.game.possibleMoves(game.getPawn(pawnx, pawny));
+		    			pawnx=xx;
+		    			pawny=yy;
+		    			List<Move> m=this.game.possibleMoves(this.game.getPawn(pawnx, pawny));
 		    			for (Move move : m)
 		    			{
 		    				String x,y;

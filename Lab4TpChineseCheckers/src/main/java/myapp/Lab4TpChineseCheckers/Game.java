@@ -78,7 +78,7 @@ public class Game {
 			{
 				if (rules.canmove(p, j, i)==true)
 				{
-					moves.add(new Move(x,y));
+					moves.add(new Move(j,i));
 				}
 			}
 		}
