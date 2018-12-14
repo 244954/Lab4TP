@@ -23,10 +23,6 @@ public class Server {
                 for (Player p: players)
                 {
                 	System.out.println(p.getnoPlayer());
-                }
-                for (Player p: players)
-                {
-                	System.out.println(p.getnoPlayer());
                 	p.setOpponents(players);
                 	if (p.getnoPlayer()==1)
                 	{

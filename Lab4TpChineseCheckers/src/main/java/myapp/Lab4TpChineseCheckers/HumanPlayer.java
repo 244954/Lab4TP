@@ -85,70 +85,74 @@ public class HumanPlayer extends Player {
 	    	
 	    	while (true)
 	    	{
-	    		String command=input.readLine();
-	    		if (command.startsWith("PAWN") && this.current==true && this.pawnLocked==false)
+	    		String command;
+	    		if(input.ready() && (command = input.readLine())!=null)
 	    		{
-	    			pawnx=Integer.parseInt(command.substring(5, 7));
-	    			pawny=Integer.parseInt(command.substring(8, 10));
-	    			List<Move> m=this.game.possibleMoves(game.getPawn(pawnx, pawny));
-	    			for (Move move : m)
-	    			{
-	    				String x,y;
-	    				if (move.x<10)
-	    					x="0"+Integer.toString(move.x);
-	    				else
-	    					x=Integer.toString(move.x);
-	    				if (move.y<10)
-	    					y="0"+Integer.toString(move.y);
-	    				else
-	    					y=Integer.toString(move.y);
-	    				output.println("VALIDMOVE " + x + " " + y);
-	    			}
-	    		}
-	    		else if (command.startsWith("MOVE") && this.current==true)
-	    		{
-	    			int xx=Integer.parseInt(command.substring(5, 7));
-	    			int yy=Integer.parseInt(command.substring(8, 10));
-	    			this.game.movePawn(game.getPawn(pawnx, pawny),xx , yy);
-	    			if (game.haswon(this.noPlayer)==true)
-	    			{
-	    				output.println("VICTORY");
-	    			}
-	    			for (Player p: opponents)
-	    			{
-	    				p.otherPlayerMoved(pawnx, pawny, xx, yy);
-	    			}
-	    			List<Move> m=this.game.possibleMoves(game.getPawn(pawnx, pawny));
-	    			for (Move move : m)
-	    			{
-	    				String x,y;
-	    				if (move.x<10)
-	    					x="0"+Integer.toString(move.x);
-	    				else
-	    					x=Integer.toString(move.x);
-	    				if (move.y<10)
-	    					y="0"+Integer.toString(move.y);
-	    				else
-	    					y=Integer.toString(move.y);
-	    				output.println("VALIDMOVE " + x + " " + y);
-	    			}
-	    			this.pawnLocked=true;
-	    		}
-	    		else if (command.startsWith("END") && this.current==true)
-	    		{
-	    			int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
-	    			this.current=false;
-	    			for (Player p : opponents)
-	    			{
-	    				if (p.getnoPlayer()==no)
-	    					p.setCurrent(true);
-	    			}
-	    			this.pawnLocked=false;
-	    		}
-	    		else if (command.startsWith("QUIT"))
-	    		{
-	    			return;
-	    		}
+		    		System.out.println(command);
+		    		if (command.startsWith("PAWN") && this.current==true && this.pawnLocked==false)
+		    		{
+		    			pawnx=Integer.parseInt(command.substring(5, 7));
+		    			pawny=Integer.parseInt(command.substring(8, 10));
+		    			List<Move> m=this.game.possibleMoves(game.getPawn(pawnx, pawny));
+		    			for (Move move : m)
+		    			{
+		    				String x,y;
+		    				if (move.x<10)
+		    					x="0"+Integer.toString(move.x);
+		    				else
+		    					x=Integer.toString(move.x);
+		    				if (move.y<10)
+		    					y="0"+Integer.toString(move.y);
+		    				else
+		    					y=Integer.toString(move.y);
+		    				output.println("VALIDMOVE " + x + " " + y);
+		    			}
+		    		}
+		    		else if (command.startsWith("MOVE") && this.current==true)
+		    		{
+		    			int xx=Integer.parseInt(command.substring(5, 7));
+		    			int yy=Integer.parseInt(command.substring(8, 10));
+		    			this.game.movePawn(game.getPawn(pawnx, pawny),xx , yy);
+		    			if (game.haswon(this.noPlayer)==true)
+		    			{
+		    				output.println("VICTORY");
+		    			}
+		    			for (Player p: opponents)
+		    			{
+		    				p.otherPlayerMoved(pawnx, pawny, xx, yy);
+		    			}
+		    			List<Move> m=this.game.possibleMoves(game.getPawn(pawnx, pawny));
+		    			for (Move move : m)
+		    			{
+		    				String x,y;
+		    				if (move.x<10)
+		    					x="0"+Integer.toString(move.x);
+		    				else
+		    					x=Integer.toString(move.x);
+		    				if (move.y<10)
+		    					y="0"+Integer.toString(move.y);
+		    				else
+		    					y=Integer.toString(move.y);
+		    				output.println("VALIDMOVE " + x + " " + y);
+		    			}
+		    			this.pawnLocked=true;
+		    		}
+		    		else if (command.startsWith("END") && this.current==true)
+		    		{
+		    			int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
+		    			this.current=false;
+		    			for (Player p : opponents)
+		    			{
+		    				if (p.getnoPlayer()==no)
+		    					p.setCurrent(true);
+		    			}
+		    			this.pawnLocked=false;
+		    		}
+		    		else if (command.startsWith("QUIT"))
+		    		{
+		    			return;
+		    		}
+		    	}
 	    	}
     	}
     	catch (IOException e)

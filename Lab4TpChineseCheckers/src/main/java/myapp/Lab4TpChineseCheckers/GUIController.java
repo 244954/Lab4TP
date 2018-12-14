@@ -23,10 +23,6 @@ public class GUIController implements Initializable
 {
     @FXML
     private Pane board;
-    @FXML 
-    private TextField noPlayers;
-    @FXML
-    private TextField rulesType;
     
     Factory factory;
     
@@ -45,9 +41,10 @@ public class GUIController implements Initializable
     
     public void new_game() //to jest metoda, ktora sie wywoluje na nacisniecie przycisku Start
     {
-        factory = new Factory(noPlayers, rulesType, board);
         try {
-			factory.create_game();
+        	factory = new Factory(board,"localhost");
+        	factory.play();
+			//factory.create_game();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
