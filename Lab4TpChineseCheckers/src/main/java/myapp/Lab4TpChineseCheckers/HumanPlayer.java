@@ -82,10 +82,19 @@ public class HumanPlayer extends Player {
 	    	{
 	    		output.println("MESSAGE Your move");
 	    	}
+                
+                boolean hasRun = false;
 	    	
 	    	while (true)
 	    	{
 	    		String command;
+                        
+                        if (this.current == true && hasRun == false)
+                        {
+                                output.println("MESSAGE Your move");
+                                hasRun = true;
+                        }
+                        
 	    		if(input.ready() && (command = input.readLine())!=null)
 	    		{
 		    		System.out.println(command);
@@ -151,6 +160,8 @@ public class HumanPlayer extends Player {
 		    			}
 		    			this.pawnLocked=false;
 		    			this.game.movedone();
+                                        output.println("MESSAGE Waiting for others...");
+                                        hasRun = false;
 		    		}
 		    		else if (command.startsWith("QUIT"))
 		    		{

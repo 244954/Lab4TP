@@ -31,5 +31,4 @@ public class BotPlayer extends Player {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

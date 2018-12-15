@@ -24,6 +24,9 @@ public class GUIController implements Initializable
     @FXML
     private Pane board;
     
+    @FXML 
+    public TextField textfield;
+    
     Factory factory;
     
     public void info()
@@ -42,7 +45,7 @@ public class GUIController implements Initializable
     public void new_game() //to jest metoda, ktora sie wywoluje na nacisniecie przycisku Start
     {
         try {
-        	factory = new Factory(board,"localhost");
+        	factory = new Factory(board,"localhost",this);
         	factory.play();
 			//factory.create_game();
 		} catch (Exception e) {
@@ -60,6 +63,11 @@ public class GUIController implements Initializable
     public void initialize(URL location, ResourceBundle resources) //bardzo skomplikowana inicjalizacja
     {
 
+    }
+    
+    public void setText(String string)
+    {
+        textfield.setText(string);
     }
     
 }

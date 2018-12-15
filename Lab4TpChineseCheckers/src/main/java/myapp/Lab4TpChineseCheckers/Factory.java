@@ -11,11 +11,13 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -33,6 +35,7 @@ public class Factory
     Circle[][] circle;
     
     private Pane board_pane;
+    private final GUIController controller;
     
     private double X,Y;
     private int noplayer;
@@ -40,6 +43,9 @@ public class Factory
     private boolean pawnlock;
     
     List<Move> posmoves;
+    
+    @FXML
+    private TextField textfield;
     
     ColorPicker[] array;
     
@@ -63,6 +69,7 @@ public class Factory
 	                    @Override public void run() {
 	                    	noplayer = res;
 	                        System.out.println("Polaczono "+noplayer);
+                                controller.setText("You are player "+noplayer);
 	                    }
 	                });
                 }
@@ -141,9 +148,11 @@ public class Factory
     	                    
     	                } else if (response.startsWith("VICTORY")) {
     	                	 System.out.println("wygrales");
+                                 controller.setText("You've won!");
     	                    break;
     	                } else if (response.startsWith("MESSAGE")) {
     	                    System.out.println(response);
+                            controller.setText(response.substring(8));   
     	                }
                 	}
                 }
@@ -170,7 +179,7 @@ public class Factory
         }
     };
     
-    public Factory(Pane board_pane,String serverAddress) throws Exception
+    public Factory(Pane board_pane,String serverAddress, GUIController controller) throws Exception
     {
     	// Setup networking
         socket = new Socket(serverAddress, PORT);
@@ -184,6 +193,8 @@ public class Factory
         
         List<Move> mymoves;
         mymoves=new ArrayList<Move>();
+        
+        this.controller = controller;
         //mymoves.add(new Move(4,6));
         //mymoves.add(new Move(13,11));
         //selpossmov(mymoves);
