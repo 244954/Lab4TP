@@ -150,6 +150,7 @@ public class HumanPlayer extends Player {
 		    					p.setCurrent(true);
 		    			}
 		    			this.pawnLocked=false;
+		    			this.game.movedone();
 		    		}
 		    		else if (command.startsWith("QUIT"))
 		    		{

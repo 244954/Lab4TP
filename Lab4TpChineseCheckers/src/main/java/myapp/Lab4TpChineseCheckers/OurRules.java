@@ -22,8 +22,8 @@ public class OurRules implements Rules {
 		 // wolne pole
 		if (b.getSquare(nx, ny)==0)
 		{
-			 // jesli poza zasiegiem skoku
-			if ((x-nx>2 && x-nx<-2) || (y-ny>2 && y-ny<-2))
+			 // jesli poza zasiegiem skoku lub ruszyl sie o jeden
+			if ((x-nx>2 && x-nx<-2) || (y-ny>2 && y-ny<-2) || p.getDidmoveone()==true)
 				return false;
 			else
 			{

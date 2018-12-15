@@ -6,6 +6,7 @@ public class Pawn {
 	private int x;
 	private int y;
 	private boolean didmove;
+	private boolean didmoveone;
 	private boolean atDestination;
 	
 	public Pawn(int p,int x,int y) {
@@ -13,10 +14,13 @@ public class Pawn {
 		this.x=x;
 		this.y=y;
 		this.didmove=false;
+		this.setDidmoveone(false);
 		this.setAtDestination(false);
 	}
 	public void move(int x,int y)
 	{
+		if ( (x-this.x<2 && x-this.x>-2) && (y-this.y<2 && y-this.y>-2) ) 
+			this.didmoveone=true;
 		this.x=x;
 		this.y=y;
 		this.didmove=true;
@@ -24,6 +28,7 @@ public class Pawn {
 	public void doneMoving()
 	{
 		this.didmove=false;
+		this.didmoveone=false;
 	}
 
 	public boolean getDidmove() {
@@ -43,6 +48,12 @@ public class Pawn {
 	}
 	public void setAtDestination(boolean atDestination) {
 		this.atDestination = atDestination;
+	}
+	public boolean getDidmoveone() {
+		return didmoveone;
+	}
+	public void setDidmoveone(boolean didmoveone) {
+		this.didmoveone = didmoveone;
 	}
 
 }
