@@ -18,7 +18,6 @@ public class App extends Application
     @Override
     public void start(Stage stage) throws Exception //tutaj wlaczam aplikacje, raczej intuicyjne
     {
-        System.out.println("getClass: " + myapp.Lab4TpChineseCheckers.GUIController.class);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
         
         Parent root = loader.load();

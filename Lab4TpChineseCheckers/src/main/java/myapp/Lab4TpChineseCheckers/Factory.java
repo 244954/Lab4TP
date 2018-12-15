@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package myapp.Lab4TpChineseCheckers;
 
 import java.io.BufferedReader;
@@ -10,10 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -23,7 +16,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -120,10 +112,11 @@ public class Factory
     	                    int parsx,parsy;
     	                    System.out.println(response);
     	                    parsx=Integer.parseInt(response.substring(10,12));
-    	                    parsy=Integer.parseInt(response .substring(13,15));
+    	                    parsy=Integer.parseInt(response.substring(13,15));
     	                    
     	                    Platform.runLater(new Runnable() {
     	                        @Override public void run() {
+                                        // removeselect();
     	                        	posmoves.add(new Move(parsx,parsy));
     	    	                    repaint();
     	    	                	// do posmoves dodajemy new Move(parsx,parsy)
@@ -323,6 +316,7 @@ public class Factory
     	    				else
     	    					sy=Integer.toString(b);
                     		out.println("PAWN " + sx + " " + sy);
+                                removeselect();
                     		//wyślij komunikat do serwera PAWN a b DONE
                     	}
                     	else
@@ -418,6 +412,7 @@ public class Factory
     	pawnlock=false;
     	
     	out.println("END");
+        removeselect();
     }
     
     public void selpossmov(List<Move> m)

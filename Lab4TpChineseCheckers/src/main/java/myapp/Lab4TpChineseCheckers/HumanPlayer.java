@@ -64,7 +64,7 @@ public class HumanPlayer extends Player {
     		snx="0"+Integer.toString(nx);
     	else
     		snx=Integer.toString(nx);
-    	if (nx<10)
+    	if (ny<10)
     		sny="0"+Integer.toString(ny);
     	else
     		sny=Integer.toString(ny);
