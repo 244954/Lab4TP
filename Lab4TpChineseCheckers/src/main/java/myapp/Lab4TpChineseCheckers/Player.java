@@ -9,7 +9,7 @@ public abstract class Player extends Thread{
 	List<Player> opponents;
     Game game;
     int pawnx,pawny;
-    protected boolean current;
+    protected volatile boolean current;
     protected boolean pawnLocked;
 	
 	public Player() {

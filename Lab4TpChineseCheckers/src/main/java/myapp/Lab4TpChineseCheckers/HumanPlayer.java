@@ -10,13 +10,9 @@ import java.util.List;
 
 public class HumanPlayer extends Player {
 
-	int noPlayer;
-	List<Player> opponents;
 	Socket socket;
     BufferedReader input;
     PrintWriter output;
-    Game game;
-    int pawnx,pawny;
     
     
     public HumanPlayer(Socket socket, int noPlayer, Game game,int gamemode) {

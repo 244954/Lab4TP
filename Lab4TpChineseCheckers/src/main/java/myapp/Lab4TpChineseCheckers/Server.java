@@ -7,19 +7,61 @@ import java.util.List;
 public class Server {
 	
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] argv) throws Exception {
 		
+		int lp,lbots,tryb;
+		lp=Integer.parseInt(argv[0]);
+		lbots=Integer.parseInt(argv[1]);
+		if (lp==lbots) // same boty
+		{
+			return;
+		}
 		List<Player> players;
-		
         ServerSocket listener = new ServerSocket(8901);
         System.out.println("Chinese Checkers Server is Running");
         try {
             while (true) {
-            	GameBuilder gb=new StandardGameBuilder2Players();
+            	
+            	GameBuilder gb;
+            	switch(lp)
+            	{
+	            	case 2:
+	            	{
+	            		gb=new StandardGameBuilder2Players();
+	            		tryb=1;
+	            		break;
+	            	}
+	            	case 3:
+	            	{
+	            		gb=new StandardGameBuilder3Players();
+	            		tryb=2;
+	            		break;
+	            	}
+	            	case 4:
+	            	{
+	            		gb=new StandardGameBuilder4Players();
+	            		tryb=3;
+	            		break;
+	            	}
+	            	case 6:
+	            	{
+	            		gb=new StandardGameBuilder6Players();
+	            		tryb=4;
+	            		break;
+	            	}
+	            	default:
+	            		return; // zle parametry kolego
+            	}
             	Game g=gb.build();
                 players=new ArrayList<Player>();
-                players.add(new HumanPlayer(listener.accept(),1, g,1));
-                players.add(new HumanPlayer(listener.accept(),2, g,1));
+                for (int i=1;i<=lp-lbots;i++) // zainicjuj graczy
+                {
+                	players.add(new HumanPlayer(listener.accept(),i, g,tryb));
+                }
+                for (int i=lp-lbots+1;i<=lp;i++)
+                {
+                	players.add(new BotPlayer(i,g,tryb));
+                }
                 for (Player p: players)
                 {
                 	System.out.println(p.getnoPlayer());
