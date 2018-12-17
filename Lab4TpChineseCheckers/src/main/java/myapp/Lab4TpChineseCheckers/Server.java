@@ -60,7 +60,7 @@ public class Server {
                 }
                 for (int i=lp-lbots+1;i<=lp;i++)
                 {
-                	players.add(new BotPlayer(i,g,tryb));
+                	players.add(new UpgradedBotPlayer(i,g,tryb));
                 }
                 for (Player p: players)
                 {

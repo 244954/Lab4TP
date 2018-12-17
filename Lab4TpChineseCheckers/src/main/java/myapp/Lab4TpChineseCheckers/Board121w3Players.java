@@ -60,5 +60,27 @@ public class Board121w3Players extends Board {
 		setnoPlayers(3);
 
 	}
+	@Override
+	public Move destination(int noplayer) {
+		switch (noplayer)
+		{
+		case 1:
+		{
+			return new Move(14,18);
+		}
+		case 2:
+		{
+			return new Move(2,6);
+		}
+		case 3:
+		{
+			return new Move(14,6);
+		}
+		default:
+		{
+			return null;
+		}
+		}
+	}
 
 }

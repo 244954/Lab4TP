@@ -48,4 +48,23 @@ public class Board121w2Players extends Board {
 				p[j][i]=0;
 	}
 
+	@Override
+	public Move destination(int noplayer) {
+		switch (noplayer)
+		{
+		case 1:
+		{
+			return new Move(14,18);
+		}
+		case 2:
+		{
+			return new Move(6,2);
+		}
+		default:
+		{
+			return null;
+		}
+		}
+	}
+
 }

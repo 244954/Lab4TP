@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BotPlayer extends Player {
-
-	public BotPlayer(int noPlayer, Game game,int gamemode) {
+public class UpgradedBotPlayer extends Player {
+	
+	Move destin; // where do i go
+	
+	public UpgradedBotPlayer(int noPlayer, Game game,int gamemode) {
         this.noPlayer = noPlayer;
         this.game=game;
         this.current=false;
         this.pawnLocked=false;
+        destin=game.board.destination(noPlayer); // wow it looks bad
 	}
 
 	@Override
@@ -54,15 +57,26 @@ public class BotPlayer extends Player {
 					if (p.getPlayer()==this.noPlayer && !this.game.possibleMoves(p).isEmpty()) // has moves
 						pawns.add(p);
 				}
-				thisp=pawns.get(new Random().nextInt(pawns.size()));
+				thisp=pawns.get(new Random().nextInt(pawns.size())); // choose a pawn to move
+				thism=new Move(Integer.MAX_VALUE/2,Integer.MAX_VALUE/2); // somewhere far
+				
+				/////////////////////////////////////////////// do this recursively and not randomly
 				moves=this.game.possibleMoves(thisp);
-				thism=moves.get(new Random().nextInt(moves.size()));
+				for (Move m: moves) // choose the closest to your destination
+				{
+					if (destin.distance(m)<destin.distance(thism))
+					{
+						thism=m;
+					}
+				}
+				System.out.println(destin.x+" "+destin.y+" "+thism.x+" "+thism.y);
 			
     			for (Player p: opponents)
     			{
     				p.otherPlayerMoved(thisp.getX(),thisp.getY(),thism.x,thism.y);
     			}
 				this.game.movePawn(thisp,thism.x ,thism.y);
+				//////////////////////////////////////////////
     			
     			int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
     			this.current=false;

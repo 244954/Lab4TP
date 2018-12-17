@@ -59,5 +59,31 @@ public class Board121w4Players extends Board {
 				decount++;
 			}
 	}
+	@Override
+	public Move destination(int noplayer) {
+		switch (noplayer)
+		{
+		case 1:
+		{
+			return new Move(14,18);
+		}
+		case 2:
+		{
+			return new Move(2,6);
+		}
+		case 3:
+		{
+			return new Move(6,2);
+		}
+		case 4:
+		{
+			return new Move(18,14);
+		}
+		default:
+		{
+			return null;
+		}
+		}
+	}
 
 }

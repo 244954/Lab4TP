@@ -12,6 +12,8 @@ public abstract class Board {
 	
 	public abstract void setUp();
 	
+	public abstract Move destination(int noplayer); // tip of destination field
+	
 	public boolean atDestination(Pawn p,int x,int y) // will pawn be at destination upon moving there
 	{
 		for (int i=0;i<destination.length;i++)

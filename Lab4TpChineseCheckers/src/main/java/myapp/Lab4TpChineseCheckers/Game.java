@@ -42,6 +42,10 @@ public class Game {
 		}
 		return null;
 	}
+	public List<Pawn> getPawns()
+	{
+		return this.pawn;
+	}
 	
 	public void movePawn(Pawn p,int x,int y)
 	{
