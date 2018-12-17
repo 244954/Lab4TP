@@ -148,11 +148,24 @@ public class Factory
     	                    
     	                } else if (response.startsWith("VICTORY")) {
     	                	 System.out.println("wygrales");
-                                 controller.setText("You've won!");
+    	                	 Platform.runLater(new Runnable() 
+    	                	 {
+     	                        @Override public void run() 
+     	                        {
+     	                        	controller.setText("You've won!");
+     	                        }
+    	                	 });
     	                    break;
     	                } else if (response.startsWith("MESSAGE")) {
     	                    System.out.println(response);
-                            controller.setText(response.substring(8));   
+    	                    String message = response.substring(8);
+    	                    Platform.runLater(new Runnable() {
+    	                        @Override public void run() {
+    	                        	controller.setText(message);
+    	                        	repaint();
+    	                        }
+    	                    });
+    	                       
     	                }
                 	}
                 }
