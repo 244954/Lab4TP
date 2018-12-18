@@ -12,7 +12,7 @@ public class Server {
 		int lp,lbots,tryb;
 		lp=Integer.parseInt(argv[0]);
 		lbots=Integer.parseInt(argv[1]);
-		if (lp==lbots) // same boty
+		if (lp==lbots) // if only bots, don't run
 		{
 			return;
 		}
@@ -50,15 +50,15 @@ public class Server {
 	            		break;
 	            	}
 	            	default:
-	            		return; // zle parametry kolego
+	            		return; // if wrong parameters
             	}
             	Game g=gb.build();
-                players=new ArrayList<Player>();
-                for (int i=1;i<=lp-lbots;i++) // zainicjuj graczy
+                players=new ArrayList<>();
+                for (int i=1;i<=lp-lbots;i++) // setting human players
                 {
                 	players.add(new HumanPlayer(listener.accept(),i, g,tryb));
                 }
-                for (int i=lp-lbots+1;i<=lp;i++)
+                for (int i=lp-lbots+1;i<=lp;i++) //setting bots
                 {
                 	players.add(new UpgradedBotPlayer(i,g,tryb));
                 }
@@ -68,7 +68,7 @@ public class Server {
                 	p.setOpponents(players);
                 	if (p.getnoPlayer()==1)
                 	{
-                		p.setCurrent(true); // ten gracz zaczyna
+                		p.setCurrent(true); // this player starts
                 	}
                 }
                 for (Player p: players)

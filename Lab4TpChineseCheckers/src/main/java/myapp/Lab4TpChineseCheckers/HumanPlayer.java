@@ -39,7 +39,7 @@ public class HumanPlayer extends Player {
     public synchronized void setOpponents(List<Player> p)
     {
     	opponents=new ArrayList<Player>(p);
-    	opponents.remove(this); // usun siebie z przeciwnikow
+    	opponents.remove(this); // delete yourself from opponents
     }
     public void setCurrent(boolean b)
     {

@@ -16,7 +16,7 @@ public class App extends Application
     Scene scene;
     
     @Override
-    public void start(Stage stage) throws Exception //tutaj wlaczam aplikacje, raczej intuicyjne
+    public void start(Stage stage) throws Exception //turning application on
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gui.fxml"));
         
@@ -31,15 +31,5 @@ public class App extends Application
     public static void main(String[] args)
     {
         launch(args);
-    	/* int [][]p=new int[4][6];
-    	for (int i=0;i<6;i++)
-    	{
-    		
-    		for(int j=0;j<4;j++)
-    			System.out.print( "*" );
-    		
-			System.out.print( "\n" );
-    	}
-        System.out.println( "Hello World!" ); */
     }
 }

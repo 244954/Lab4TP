@@ -25,11 +25,11 @@ public class BotPlayer extends Player {
 	}
 
 	@Override
-    public synchronized void setOpponents(List<Player> p)
-    {
-    	opponents=new ArrayList<Player>(p);
-    	opponents.remove(this); // usun siebie z przeciwnikow
-    }
+        public synchronized void setOpponents(List<Player> p)
+        {
+            opponents=new ArrayList<Player>(p);
+            opponents.remove(this); // delete yourself from opponents
+        }
 
 	@Override
 	public void setCurrent(boolean b) {
@@ -38,8 +38,8 @@ public class BotPlayer extends Player {
 	
 	public void run()
 	{
-		List <Pawn> pawns=new ArrayList<Pawn>(); // lista swoich pionkow
-		List <Move> moves=new ArrayList<Move>(); // mozliwe ruchy
+		List <Pawn> pawns=new ArrayList<Pawn>(); // list of pawns
+		List <Move> moves=new ArrayList<Move>(); // possible moves
 		Pawn thisp; // chosen pawn
 		Move thism; // chosen move
 		
@@ -75,13 +75,14 @@ public class BotPlayer extends Player {
 			}
 			else
 			{
-				try {
+				try 
+				{
 					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+				} catch (InterruptedException e) 
+				{
 					e.printStackTrace();
 				}
-			}
+			} 
 		}
 	}
 }

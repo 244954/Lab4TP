@@ -15,54 +15,58 @@ public class StandardGameBuilder6Players implements GameBuilder {
 		this.setPawns();
 	}
 
+        @Override
 	public Game build() {
-		// TODO Auto-generated method stub
 		return gametmp;
 	}
 
+        @Override
 	public GameBuilder setnoPlayers() {
 		gametmp.setnoPlayers(6);
 		return this;
 	}
 
+        @Override
 	public GameBuilder setBoard() {
 		gametmp.setBoard(new Board121w6Players());
 		return this;
 
 	}
 
+        @Override
 	public GameBuilder setRules() {
 		gametmp.setRules(new OurRules());
 		return this;
 
 	}
 
+        @Override
 	public GameBuilder setPawns() {
 		List <Pawn> p;
-		p=new ArrayList<Pawn>();
+		p=new ArrayList<>();
 		
-		// pionki gracza 1
-		for (int i=2;i<=5;i++) // rog 1
+		// player 1 pawns
+		for (int i=2;i<=5;i++) // corner 1
 			for (int j=6;j<=5-1+i;j++)
 				p.add(new Pawn(1,j,i));
-		// pionki gracza 2
-		for (int i=6;i<=9;i++) // rog 2
+		// player 2 pawns
+		for (int i=6;i<=9;i++) // corner 2
 			for (int j=10+i-5;j<=14;j++)
 				p.add(new Pawn(2,j,i));
-		// pionki gracza 3
-		for (int i=11;i<=14;i++) // rog 3
+		// player 3 pawns
+		for (int i=11;i<=14;i++) // corner 3
 			for (int j=15;j<=14-10+i;j++)
 				p.add(new Pawn(3,j,i));
-		// pionki gracza 4
-		for (int i=15;i<=18;i++) // rog 4
+		// player 4 pawns
+		for (int i=15;i<=18;i++) // corner 4
 			for (int j=10+i-14;j<=14;j++)
 				p.add(new Pawn(4,j,i));
-		// pionki gracza 5
-		for (int i=11;i<=14;i++) // rog 5
+		// player 5 pawns
+		for (int i=11;i<=14;i++) // corner 5
 			for (int j=6;j<=5-10+i;j++)
 				p.add(new Pawn(5,j,i));
-		// pionki gracza 6
-		for (int i=6;i<=9;i++) // rog 6
+		// player 6 pawns
+		for (int i=6;i<=9;i++) // corner 6
 			for (int j=1+i-5;j<=5;j++)
 				p.add(new Pawn(6,j,i));
 		

@@ -6,10 +6,6 @@ public abstract class Board {
 	protected int noPlayers;
 	protected int[][] destination; // [all destinatation squares][3] (player,x,y)
 	
-	public Board() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public abstract void setUp();
 	
 	public abstract Move destination(int noplayer); // tip of destination field

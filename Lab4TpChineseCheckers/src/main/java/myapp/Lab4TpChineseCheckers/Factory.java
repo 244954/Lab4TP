@@ -51,7 +51,6 @@ public class Factory
     
     private static int PORT = 8901;
     private Socket socket;
-    //private BufferedReader in;
     private PrintWriter out;
     
     Task task = new Task<Void>() {
@@ -61,123 +60,113 @@ public class Factory
         	in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         	String response;
     		try {
-                response = in.readLine();
-                if (response.startsWith("WELCOME"))
-                {
-                	int res=Integer.parseInt(response.substring(8,9));
-	                Platform.runLater(new Runnable() {
-	                    @Override public void run() {
-	                    	noplayer = res;
-	                        System.out.println("Polaczono "+noplayer);
-                                controller.setText("You are player "+noplayer);
-	                    }
-	                });
-                }
-                response=in.readLine();
-                if (response.startsWith("GAMEMODE"))
-                {
-                	String res=response.substring(9,10);
-                	Platform.runLater(new Runnable() {
-	                    @Override public void run() {
-	                    	switch (res)
-	                        {
-	                        case "1":
-	                        {
-	                        	//board = new Board121w2Players();
-	                        	create_game(1);
-	                        	System.out.println("Gamemode 1");
-	                        }
-	                        break;
-	                        case "2":
-	                        {
-	                        	create_game(2);
-	                        	System.out.println("Gamemode 2");
-	                        }
-	                        break;
-	                        case "3":
-	                        {
-	                        	create_game(3);
-	                        	System.out.println("Gamemode 3");
-	                        }
-	                        break;
-	                        case "4":
-	                        {
-	                        	create_game(4);
-	                        	System.out.println("Gamemode 4");
-	                        }
-	                        }
-	                    }
-	                });
-                	
-                }
-                
-                while (true) {
-                	if (in.ready() && (response = in.readLine())!=null)
-                	{
-    	                
-    	                if (response.startsWith("VALIDMOVE")) {
-    	                    int parsx,parsy;
-    	                    System.out.println(response);
-    	                    parsx=Integer.parseInt(response.substring(10,12));
-    	                    parsy=Integer.parseInt(response.substring(13,15));
-    	                    
-    	                    Platform.runLater(new Runnable() {
-    	                        @Override public void run() {
-                                        // removeselect();
-    	                        	posmoves.add(new Move(parsx,parsy));
-    	    	                    repaint();
-    	    	                	// do posmoves dodajemy new Move(parsx,parsy)
-    	                        }
-    	                    });
-    	                	
-    	                } else if (response.startsWith("OTHER_MOVED")) {
-    	                	System.out.println(response);
-    	                	// move(x,y,nx,ny)
-    	                	int parsx,parsy,parsnx,parsny;
-    	                    parsx=Integer.parseInt(response.substring(12,14));
-    	                    parsy=Integer.parseInt(response .substring(15,17));
-    	                    parsnx=Integer.parseInt(response.substring(18,20));
-    	                    parsny=Integer.parseInt(response .substring(21,23));
-    	                	
-    	                	Platform.runLater(new Runnable() {
-    	                        @Override public void run() {
-    	                        	board.move(parsx, parsy, parsnx, parsny);
-    	                        	repaint();
-    	                        }
-    	                    });
-    	                    
-    	                } else if (response.startsWith("VICTORY")) {
-    	                	 System.out.println("wygrales");
-    	                	 Platform.runLater(new Runnable() 
-    	                	 {
-     	                        @Override public void run() 
-     	                        {
-     	                        	controller.setText("You've won!");
-     	                        }
-    	                	 });
-    	                    break;
-    	                } else if (response.startsWith("MESSAGE")) {
-    	                    System.out.println(response);
-    	                    String message = response.substring(8);
-    	                    Platform.runLater(new Runnable() {
-    	                        @Override public void run() {
-    	                        	controller.setText(message);
-    	                        	repaint();
-    	                        }
-    	                    });
-    	                       
-    	                }
-                	}
-                }
-                
-                
-                
+                    response = in.readLine();
+                    if (response.startsWith("WELCOME"))
+                    {
+                            int res=Integer.parseInt(response.substring(8,9));
+                            Platform.runLater(new Runnable() {
+                                @Override public void run() {
+                                    noplayer = res;
+                                    controller.setText("You are player "+noplayer);
+                                }
+                            });
+                    }
+                    response=in.readLine();
+                    if (response.startsWith("GAMEMODE"))
+                    {
+                            String res=response.substring(9,10);
+                            Platform.runLater(new Runnable() {
+                                @Override public void run() {
+                                    switch (res)
+                                    {
+                                    case "1":
+                                    {
+                                            create_game(1);
+                                            System.out.println("Gamemode 1");
+                                    }
+                                    break;
+                                    case "2":
+                                    {
+                                            create_game(2);
+                                            System.out.println("Gamemode 2");
+                                    }
+                                    break;
+                                    case "3":
+                                    {
+                                            create_game(3);
+                                            System.out.println("Gamemode 3");
+                                    }
+                                    break;
+                                    case "4":
+                                    {
+                                            create_game(4);
+                                            System.out.println("Gamemode 4");
+                                    }
+                                    }
+                                }
+                            });
 
+                    }
 
-                
-                
+                    while (true) {
+                                if (in.ready() && (response = in.readLine())!=null)
+                                {
+
+                                if (response.startsWith("VALIDMOVE")) {
+                                    int parsx,parsy;
+                                    System.out.println(response);
+                                    parsx=Integer.parseInt(response.substring(10,12));
+                                    parsy=Integer.parseInt(response.substring(13,15));
+
+                                    Platform.runLater(new Runnable() {
+                                        @Override public void run() {
+                                                posmoves.add(new Move(parsx,parsy));
+                                            repaint();
+                                                // adding new Move(parsx,parsy) into posmoves
+                                        }
+                                    });
+
+                                } else if (response.startsWith("OTHER_MOVED")) {
+                                        System.out.println(response);
+                                        int parsx,parsy,parsnx,parsny;
+                                        parsx=Integer.parseInt(response.substring(12,14));
+                                        parsy=Integer.parseInt(response .substring(15,17));
+                                        parsnx=Integer.parseInt(response.substring(18,20));
+                                        parsny=Integer.parseInt(response .substring(21,23));
+
+                                        Platform.runLater(new Runnable() {
+                                        @Override public void run() {
+                                                board.move(parsx, parsy, parsnx, parsny);
+                                                repaint();
+                                        }
+                                    });
+
+                                } else if (response.startsWith("VICTORY")) {
+                                         System.out.println("wygrales");
+                                         Platform.runLater(new Runnable() 
+                                         {
+                                        @Override public void run() 
+                                        {
+                                                controller.setText("You've won!");
+                                        }
+                                         });
+                                    break;
+                                } else if (response.startsWith("MESSAGE")) {
+                                    System.out.println(response);
+                                    String message = response.substring(8);
+                                    Platform.runLater(new Runnable() {
+                                        @Override public void run() {
+                                                controller.setText(message);
+                                                repaint();
+                                        }
+                                    });
+
+                                }
+                            }
+                    }
+
                 out.println("QUIT");
-            }
+                }
     		catch (IOException e)
         	{
         		
@@ -190,17 +179,15 @@ public class Factory
         	
         	return null;
         }
-    };
+    }; 
     
     public Factory(Pane board_pane,String serverAddress, GUIController controller) throws Exception
     {
     	// Setup networking
         socket = new Socket(serverAddress, PORT);
-        //in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
     	
         this.board_pane = board_pane;
-        //this.noplayer=1; // to ustawia serwer
         this.pawnlock=false;
         posmoves=new ArrayList<Move>();
         
@@ -208,20 +195,17 @@ public class Factory
         mymoves=new ArrayList<Move>();
         
         this.controller = controller;
-        //mymoves.add(new Move(4,6));
-        //mymoves.add(new Move(13,11));
-        //selpossmov(mymoves);
     }
     
     public void play()
     {
     	Thread th = new Thread(task);
     	th.setDaemon(true);
-	    th.start();
+    	th.start();
     }
 		
     
-    public void create_game(int gamemode) //w tej czesci sprawdzamy warunki i jesli sa poprawne, to tworzymy plansze
+    public void create_game(int gamemode) //checking conditions, if correct, create board 
     {
             switch (gamemode) 
             {
@@ -247,7 +231,6 @@ public class Factory
             
             else 
             {
-                
                 Dialog dialog = new Dialog();
                 dialog.setTitle("Game settings (pawns colors)");
                 array = new ColorPicker[board.getnoPlayers()+2];
@@ -308,10 +291,6 @@ public class Factory
                 register_clicks(circle);
                 
             }
-            
-        
-        
-     
     }
     
     public void register_clicks(Circle[][] circle)
@@ -341,7 +320,7 @@ public class Factory
     	    					sy=Integer.toString(b);
                     		out.println("PAWN " + sx + " " + sy);
                                 removeselect();
-                    		//wyślij komunikat do serwera PAWN a b DONE
+                    		//send command to server PAWN a b
                     	}
                     	else
                     	if (this.board.getSquare(a, b)==0)
@@ -363,7 +342,7 @@ public class Factory
         });
     }
     
-    public void set_colors(Circle circle, int player, ColorPicker[] array) //ustalanie poszczegolnych kolorow, postaram sie tutaj dodac ColorPickery
+    public void set_colors(Circle circle, int player, ColorPicker[] array) //color settings
     {
         for (int a=0; a<array.length; a++)
         {
@@ -384,7 +363,6 @@ public class Factory
                 circle[a][b].setCenterX((X/54)*20 + (X/27)*a - (X/54)*b);
                 circle[a][b].setCenterY(70 + (Y/27)*b);
                 set_colors(circle[a][b], board.p[a][b], array);
-                //newset_colors(circle[a][b], board.p[a][b]);
                 for (Move m : posmoves)
             	{
             		if (m.x==a && m.y==b)
@@ -422,7 +400,7 @@ public class Factory
 					sy=Integer.toString(ny);
 				removeselect();
         		out.println("MOVE " + sx + " " + sy);
-        		// wyslij komunikat do serwera MOVE nx ny // done
+        		// wyslij komunikat do serwera MOVE nx ny
         		break;
     		}
     	}
@@ -434,14 +412,14 @@ public class Factory
     	chpawnx=chpawny=-1;
     	destinx=destiny=-1;
     	pawnlock=false;
-    	
+   	
     	out.println("END");
         removeselect();
     }
     
     public void selpossmov(List<Move> m)
     {
-    	this.posmoves=new ArrayList<Move>(m);
+    	this.posmoves=new ArrayList<>(m);
     }
     public void removeselect()
     {

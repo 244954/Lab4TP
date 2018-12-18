@@ -16,7 +16,6 @@ public class StandardGameBuilder2Players implements GameBuilder {
 	}
 
 	public Game build() {
-		// TODO Auto-generated method stub
 		return gametmp;
 	}
 
@@ -41,12 +40,12 @@ public class StandardGameBuilder2Players implements GameBuilder {
 		List <Pawn> p;
 		p=new ArrayList<Pawn>();
 		
-		// pionki gracza 1
-		for (int i=2;i<=5;i++) // rog 1
+		// player 1 pawns
+		for (int i=2;i<=5;i++) // corner 1
 			for (int j=6;j<=5-1+i;j++)
 				p.add(new Pawn(1,j,i));
-		// pionki gracza 2
-		for (int i=15;i<=18;i++) // rog 4
+		// player 2 pawns
+		for (int i=15;i<=18;i++) // corner 4
 			for (int j=10+i-14;j<=14;j++)
 				p.add(new Pawn(2,j,i));
 		

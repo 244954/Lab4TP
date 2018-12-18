@@ -13,7 +13,7 @@ public class UpgradedBotPlayer extends Player {
         this.game=game;
         this.current=false;
         this.pawnLocked=false;
-        destin=game.board.destination(noPlayer); // wow it looks bad
+        destin=game.board.destination(noPlayer);
 	}
 
 	@Override
@@ -23,16 +23,15 @@ public class UpgradedBotPlayer extends Player {
 
 	@Override
 	public void otherPlayerMoved(int x, int y, int nx, int ny) {
-		;
-		
+				
 	}
 
 	@Override
-    public synchronized void setOpponents(List<Player> p)
-    {
-    	opponents=new ArrayList<Player>(p);
-    	opponents.remove(this); // usun siebie z przeciwnikow
-    }
+        public synchronized void setOpponents(List<Player> p)
+        {
+            opponents=new ArrayList<>(p);
+            opponents.remove(this); // delete yourself from opponents
+        }
 
 	@Override
 	public void setCurrent(boolean b) {
@@ -41,8 +40,8 @@ public class UpgradedBotPlayer extends Player {
 	
 	public void run()
 	{
-		List <Pawn> pawns=new ArrayList<Pawn>(); // lista swoich pionkow
-		List <Move> moves=new ArrayList<Move>(); // mozliwe ruchy
+		List <Pawn> pawns=new ArrayList<Pawn>(); // list of pawns
+		List <Move> moves=new ArrayList<Move>(); // possible moves
 		Pawn thisp; // chosen pawn
 		Move thism; // chosen move
 		
@@ -58,9 +57,9 @@ public class UpgradedBotPlayer extends Player {
 						pawns.add(p);
 				}
 				thisp=pawns.get(new Random().nextInt(pawns.size())); // choose a pawn to move
-				thism=new Move(Integer.MAX_VALUE/2,Integer.MAX_VALUE/2); // somewhere far
+				thism=new Move(Integer.MAX_VALUE/2,Integer.MAX_VALUE/2); // go somewhere far
 				
-				/////////////////////////////////////////////// do this recursively and not randomly
+				// do this recursively and not randomly
 				moves=this.game.possibleMoves(thisp);
 				for (Move m: moves) // choose the closest to your destination
 				{
@@ -76,7 +75,6 @@ public class UpgradedBotPlayer extends Player {
     				p.otherPlayerMoved(thisp.getX(),thisp.getY(),thism.x,thism.y);
     			}
 				this.game.movePawn(thisp,thism.x ,thism.y);
-				//////////////////////////////////////////////
     			
     			int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
     			this.current=false;
@@ -90,9 +88,8 @@ public class UpgradedBotPlayer extends Player {
 			else
 			{
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(5000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

@@ -10,10 +10,6 @@ public class Game {
 	Rules rules;
 	List <Pawn> pawn;
 	
-	public Game() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public void setnoPlayers(int n)
 	{
 		this.noPlayers=n;

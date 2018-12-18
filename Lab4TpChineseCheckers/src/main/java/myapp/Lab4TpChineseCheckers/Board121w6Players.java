@@ -14,13 +14,13 @@ public class Board121w6Players extends Board {
 		int decount=0;
 		p=new int[21][21];
 		
-		for (int i=0;i<21;i++) // poza plansza
+		for (int i=0;i<21;i++) // behind the board
 			for (int j=0;j<21;j++)
 				p[j][i]=-1;
-		for (int i=6;i<=14;i++) // puste pola
+		for (int i=6;i<=14;i++) // empty spaces
 			for (int j=6;j<=14;j++)
 				p[j][i]=0;
-		for (int i=2;i<=5;i++) // rog 1
+		for (int i=2;i<=5;i++) // corner 1
 			for (int j=6;j<=5-1+i;j++)
 			{
 				p[j][i]=1;
@@ -29,7 +29,7 @@ public class Board121w6Players extends Board {
 				destination[decount][2]=i;
 				decount++;
 			}
-		for (int i=6;i<=9;i++) // rog 2
+		for (int i=6;i<=9;i++) // corner 2
 			for (int j=10+i-5;j<=14;j++)
 			{
 				p[j][i]=2;
@@ -38,7 +38,7 @@ public class Board121w6Players extends Board {
 				destination[decount][2]=i;
 				decount++;
 			}
-		for (int i=11;i<=14;i++) // rog 3
+		for (int i=11;i<=14;i++) // corner 3
 			for (int j=15;j<=14-10+i;j++)
 			{
 				p[j][i]=3;
@@ -47,7 +47,7 @@ public class Board121w6Players extends Board {
 				destination[decount][2]=i;
 				decount++;
 			}
-		for (int i=15;i<=18;i++) // rog 4
+		for (int i=15;i<=18;i++) // corner 4
 			for (int j=10+i-14;j<=14;j++)
 			{
 				p[j][i]=4;
@@ -56,7 +56,7 @@ public class Board121w6Players extends Board {
 				destination[decount][2]=i;
 				decount++;
 			}
-		for (int i=11;i<=14;i++) // rog 5
+		for (int i=11;i<=14;i++) // corner 5
 			for (int j=6;j<=5-10+i;j++)
 			{
 				p[j][i]=5;
@@ -65,7 +65,7 @@ public class Board121w6Players extends Board {
 				destination[decount][2]=i;
 				decount++;
 			}
-		for (int i=6;i<=9;i++) // rog 6
+		for (int i=6;i<=9;i++) // corner 6
 			for (int j=1+i-5;j<=5;j++)
 			{
 				p[j][i]=6;

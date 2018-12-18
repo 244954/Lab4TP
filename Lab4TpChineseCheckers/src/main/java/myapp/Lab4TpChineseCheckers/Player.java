@@ -12,10 +12,6 @@ public abstract class Player extends Thread{
     protected volatile boolean current;
     protected boolean pawnLocked;
 	
-	public Player() {
-		// TODO Auto-generated constructor stub
-	}
-	
     abstract public int getnoPlayer();
     
 	abstract public void otherPlayerMoved(int x,int y,int nx,int ny);
