@@ -35,7 +35,7 @@ public class Board121w3Players extends Board {
 			}
 		for (int i=11;i<=14;i++) // corner 3
 			for (int j=15;j<=14-10+i;j++)
-				p[j][i]=2;
+				p[j][i]=0;
 		for (int i=15;i<=18;i++) // corner 4
 			for (int j=10+i-14;j<=14;j++)
 			{
@@ -51,7 +51,7 @@ public class Board121w3Players extends Board {
 		for (int i=6;i<=9;i++) // corner 6
 			for (int j=1+i-5;j<=5;j++)
 			{
-				p[j][i]=0;
+				p[j][i]=2;
 				destination[decount][0]=2;
 				destination[decount][1]=j;
 				destination[decount][2]=i;

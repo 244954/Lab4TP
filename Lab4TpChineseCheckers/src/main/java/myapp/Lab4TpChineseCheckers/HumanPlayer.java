@@ -71,7 +71,6 @@ public class HumanPlayer extends Player {
     {
     	try
     	{
-    		System.out.println("Player started");
 	    	output.println("MESSAGE All players connected");
 	    	
 	    	if (this.current==true)
@@ -79,85 +78,34 @@ public class HumanPlayer extends Player {
 	    		output.println("MESSAGE Your move");
 	    	}
                 
-                boolean hasRun = false;
+            boolean yourMove = false;
 	    	
 	    	while (true)
 	    	{
 	    		String command;
                         
-                        if (this.current == true && hasRun == false)
+                        if (this.current == true && yourMove == false)
                         {
                                 output.println("MESSAGE Your move");
-                                hasRun = true;
+                                yourMove = true;
                         }
                         
 	    		if(input.ready() && (command = input.readLine())!=null)
 	    		{
-		    		System.out.println(command);
 		    		if (command.startsWith("PAWN") && this.current==true && this.pawnLocked==false)
 		    		{
 		    			pawnx=Integer.parseInt(command.substring(5, 7));
 		    			pawny=Integer.parseInt(command.substring(8, 10));
-		    			List<Move> m=this.game.possibleMoves(this.game.getPawn(pawnx, pawny));
-		    			for (Move move : m)
-		    			{
-		    				String x,y;
-		    				if (move.x<10)
-		    					x="0"+Integer.toString(move.x);
-		    				else
-		    					x=Integer.toString(move.x);
-		    				if (move.y<10)
-		    					y="0"+Integer.toString(move.y);
-		    				else
-		    					y=Integer.toString(move.y);
-		    				output.println("VALIDMOVE " + x + " " + y);
-		    			}
+		    			sendValidMoves(command);
 		    		}
 		    		else if (command.startsWith("MOVE") && this.current==true)
 		    		{
-		    			int xx=Integer.parseInt(command.substring(5, 7));
-		    			int yy=Integer.parseInt(command.substring(8, 10));
-		    			this.game.movePawn(this.game.getPawn(pawnx, pawny),xx , yy);
-		    			System.out.println("Moved");
-		    			if (game.haswon(this.noPlayer)==true)
-		    			{
-		    				output.println("VICTORY");
-		    			}
-		    			for (Player p: opponents)
-		    			{
-		    				p.otherPlayerMoved(pawnx, pawny, xx, yy);
-		    			}
-		    			pawnx=xx;
-		    			pawny=yy;
-		    			List<Move> m=this.game.possibleMoves(this.game.getPawn(pawnx, pawny));
-		    			for (Move move : m)
-		    			{
-		    				String x,y;
-		    				if (move.x<10)
-		    					x="0"+Integer.toString(move.x);
-		    				else
-		    					x=Integer.toString(move.x);
-		    				if (move.y<10)
-		    					y="0"+Integer.toString(move.y);
-		    				else
-		    					y=Integer.toString(move.y);
-		    				output.println("VALIDMOVE " + x + " " + y);
-		    			}
-		    			this.pawnLocked=true;
+		    			movePawn(command);
 		    		}
 		    		else if (command.startsWith("END") && this.current==true)
 		    		{
-		    			int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
-		    			this.current=false;
-		    			for (Player p : opponents)
-		    			{
-		    				if (p.getnoPlayer()==no)
-		    					p.setCurrent(true);
-		    			}
-		    			this.pawnLocked=false;
-		    			this.game.movedone();
-                                        output.println("MESSAGE Waiting for others...");
-                                        hasRun = false;
+		    			othersMove();
+		    	        yourMove = false;
 		    		}
 		    		else if (command.startsWith("QUIT"))
 		    		{
@@ -175,5 +123,63 @@ public class HumanPlayer extends Player {
     		try {socket.close();} catch (IOException e) {}
     	}
     }
+    
+ 
+  	private void movePawn(String command) 
+	{
+		int xx=Integer.parseInt(command.substring(5, 7));
+		int yy=Integer.parseInt(command.substring(8, 10));
+		movePawnTo(xx,yy);
+		checkIfHasWon();
+		for (Player p: opponents)
+		{
+			p.otherPlayerMoved(pawnx, pawny, xx, yy);
+		}
+		pawnx=xx;
+		pawny=yy;
+		sendValidMoves(command);
+		this.pawnLocked=true;		
+	}
+	private void movePawnTo(int xx, int yy) 
+	{
+		this.game.movePawn(this.game.getPawn(pawnx, pawny),xx , yy);
+	}
+	private void checkIfHasWon() 
+	{
+		if (game.haswon(this.noPlayer)==true)
+		{
+			output.println("VICTORY");
+		}
+	}
+	private void othersMove() 
+	{
+		int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
+		this.current=false;
+		for (Player p : opponents)
+		{
+			if (p.getnoPlayer()==no)
+				p.setCurrent(true);
+		}
+		this.pawnLocked=false;
+		this.game.movedone();
+        output.println("MESSAGE Waiting for others...");
+	}
+	private void sendValidMoves(String command) 
+	{
+		List<Move> m=this.game.possibleMoves(this.game.getPawn(pawnx, pawny));
+		for (Move move : m)
+		{
+			String x,y;
+			if (move.x<10)
+				x="0"+Integer.toString(move.x);
+			else
+				x=Integer.toString(move.x);
+			if (move.y<10)
+				y="0"+Integer.toString(move.y);
+			else
+				y=Integer.toString(move.y);
+			output.println("VALIDMOVE " + x + " " + y);
+		}
+	}
 
 }

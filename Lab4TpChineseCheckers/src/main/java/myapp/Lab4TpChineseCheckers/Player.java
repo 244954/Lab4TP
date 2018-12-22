@@ -1,6 +1,5 @@
 package myapp.Lab4TpChineseCheckers;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 public abstract class Player extends Thread{

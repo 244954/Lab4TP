@@ -22,14 +22,14 @@ public class GUIController implements Initializable
     @FXML 
     public TextField textfield;
     
-    Factory factory;
+    Client factory;
     
     public void info()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Game Info");
         alert.setHeaderText("Chinese Checkers");
-        alert.setContentText("Authors: Tomasz Karciarz, Mateusz Ma³ecki" + 
+        alert.setContentText("Authors: Tomasz Karciarz, Mateusz Maï¿½ecki" + 
                 "\n\nThe game allows currently to play in 4 different modes:"
                 + "\n2, 3, 4, 6 players and 1 as default type of rules. \n\nThe rules are available on: "
                 + "https://en.wikipedia.org/wiki/Chinese_checkers#Rules");
@@ -41,7 +41,7 @@ public class GUIController implements Initializable
     {
         try 
         {
-        	factory = new Factory(board,"localhost",this);
+        	factory = new Client(board,"localhost",this);
         	factory.play();
 		} 
         catch (Exception e) 

@@ -49,35 +49,32 @@ public class UpgradedBotPlayer extends Player {
 		{
 			if (current)
 			{
-				System.out.println("My move!");
-				pawns.clear();
-				for (Pawn p : this.game.getPawns())
+				if(!hasWon())
 				{
-					if (p.getPlayer()==this.noPlayer && !this.game.possibleMoves(p).isEmpty()) // has moves
-						pawns.add(p);
-				}
-				thisp=pawns.get(new Random().nextInt(pawns.size())); // choose a pawn to move
-				thism=new Move(Integer.MAX_VALUE/2,Integer.MAX_VALUE/2); // go somewhere far
-				
-				// do this recursively and not randomly
-				moves=this.game.possibleMoves(thisp);
-				for (Move m: moves) // choose the closest to your destination
-				{
-					if (destin.distance(m)<destin.distance(thism))
+					pawns.clear();
+					checkIfHasMoves(pawns);
+					thisp=pawns.get(new Random().nextInt(pawns.size())); // choose a pawn to move
+					thism=new Move(Integer.MAX_VALUE/2,Integer.MAX_VALUE/2); // go somewhere far
+					
+					// do this recursively and not randomly
+					moves=this.game.possibleMoves(thisp);
+					for (Move m: moves) // choose the closest to your destination
 					{
-						thism=m;
+						if (destin.distance(m)<destin.distance(thism))
+						{
+							thism=m;
+						}
 					}
+				
+	    			for (Player p: opponents)
+	    			{
+	    				p.otherPlayerMoved(thisp.getX(),thisp.getY(),thism.x,thism.y);
+	    			}
+					this.game.movePawn(thisp,thism.x ,thism.y);
 				}
-				System.out.println(destin.x+" "+destin.y+" "+thism.x+" "+thism.y);
-			
-    			for (Player p: opponents)
-    			{
-    				p.otherPlayerMoved(thisp.getX(),thisp.getY(),thism.x,thism.y);
-    			}
-				this.game.movePawn(thisp,thism.x ,thism.y);
-    			
-    			int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
-    			this.current=false;
+	    			
+				int no=( (this.noPlayer+1>this.game.getnoPlayers()) ? 1 : this.noPlayer+1 );
+				this.current=false;
     			for (Player p : opponents)
     			{
     				if (p.getnoPlayer()==no)
@@ -88,11 +85,25 @@ public class UpgradedBotPlayer extends Player {
 			else
 			{
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+	}
+
+	private void checkIfHasMoves(List<Pawn> pawns) 
+	{
+		for (Pawn p : this.game.getPawns())
+		{
+			if (p.getPlayer()==this.noPlayer && !this.game.possibleMoves(p).isEmpty()) // has moves
+				pawns.add(p);
+		}
+	}
+	
+	private boolean hasWon() 
+	{
+		return game.haswon(this.noPlayer); 
 	}
 }
