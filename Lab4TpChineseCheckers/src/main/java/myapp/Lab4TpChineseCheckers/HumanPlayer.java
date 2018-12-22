@@ -10,7 +10,7 @@ import java.util.List;
 
 public class HumanPlayer extends Player {
 
-	Socket socket;
+    Socket socket;
     BufferedReader input;
     PrintWriter output;
     
@@ -71,25 +71,25 @@ public class HumanPlayer extends Player {
     {
     	try
     	{
-	    	output.println("MESSAGE All players connected");
+	    output.println("MESSAGE All players connected");
 	    	
-	    	if (this.current==true)
-	    	{
-	    		output.println("MESSAGE Your move");
-	    	}
+	    if (this.current==true)
+	    {
+	    	output.println("MESSAGE Your move");
+	    }
                 
             boolean yourMove = false;
 	    	
-	    	while (true)
-	    	{
-	    		String command;
+	    while (true)
+	    {
+	    	String command;
                         
-                        if (this.current == true && yourMove == false)
-                        {
-                                output.println("MESSAGE Your move");
-                                yourMove = true;
-                        }
-                        
+                 if (this.current == true && yourMove == false)
+                 {
+                      output.println("MESSAGE Your move");
+                      yourMove = true;
+                 }
+                    
 	    		if(input.ready() && (command = input.readLine())!=null)
 	    		{
 		    		if (command.startsWith("PAWN") && this.current==true && this.pawnLocked==false)
@@ -158,11 +158,11 @@ public class HumanPlayer extends Player {
 		for (Player p : opponents)
 		{
 			if (p.getnoPlayer()==no)
-				p.setCurrent(true);
+			p.setCurrent(true);
 		}
 		this.pawnLocked=false;
 		this.game.movedone();
-        output.println("MESSAGE Waiting for others...");
+        	output.println("MESSAGE Waiting for others...");
 	}
 	private void sendValidMoves(String command) 
 	{
