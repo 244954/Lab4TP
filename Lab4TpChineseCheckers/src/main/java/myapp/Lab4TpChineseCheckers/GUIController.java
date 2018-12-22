@@ -29,7 +29,7 @@ public class GUIController implements Initializable
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Game Info");
         alert.setHeaderText("Chinese Checkers");
-        alert.setContentText("Authors: Tomasz Karciarz, Mateusz Ma�ecki" + 
+        alert.setContentText("Authors: Tomasz Karciarz, Mateusz Małecki" + 
                 "\n\nThe game allows currently to play in 4 different modes:"
                 + "\n2, 3, 4, 6 players and 1 as default type of rules. \n\nThe rules are available on: "
                 + "https://en.wikipedia.org/wiki/Chinese_checkers#Rules");
