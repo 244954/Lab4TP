@@ -87,17 +87,11 @@ public class Game {
 	}
 	public boolean canmove(Pawn p,int x,int y)
 	{
-		if (rules.canmove(p, x, y)==true)
-			return true;
-		else
-			return false;
+		return rules.canmove(p, x, y);
 	}
 	public boolean haswon(int noPlayer)
 	{
-		if (rules.haswon(noPlayer,pawn)==true)
-			return true;
-		else
-			return false;
+		return rules.haswon(noPlayer,pawn);
 	}
 	public int getnoPlayers()
 	{
